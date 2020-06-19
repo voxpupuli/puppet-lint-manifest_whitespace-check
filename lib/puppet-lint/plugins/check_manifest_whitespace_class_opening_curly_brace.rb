@@ -10,7 +10,7 @@ PuppetLint.new_check(:manifest_whitespace_class_opening_curly_brace) do
 
       next unless prev_code_token
       next unless tokens.index(prev_code_token) != tokens.index(bracket_token) - 2 ||
-                  prev_token.value != ' '
+                  !is_single_space(prev_token)
 
       notify(
         :error,
@@ -35,6 +35,6 @@ PuppetLint.new_check(:manifest_whitespace_class_opening_curly_brace) do
       prev_code_token = prev_code_token.next_token
     end
 
-    add_token(tokens.index(token), PuppetLint::Lexer::Token.new(:WHITESPACE, ' ', 0, 0))
+    add_token(tokens.index(token), new_single_space)
   end
 end

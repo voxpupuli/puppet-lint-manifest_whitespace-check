@@ -5,7 +5,7 @@ PuppetLint.new_check(:manifest_whitespace_arrows_single_space_after) do
     tokens.select { |token| token.type == :FARROW }.each do |token|
       next_token = token.next_token
 
-      next unless next_token && next_token.value != ' '
+      next unless next_token && !is_single_space(next_token)
 
       notify(
         :error,
@@ -25,6 +25,6 @@ PuppetLint.new_check(:manifest_whitespace_arrows_single_space_after) do
       return
     end
 
-    add_token(tokens.index(token), PuppetLint::Lexer::Token.new(:WHITESPACE, ' ', 0, 0))
+    add_token(tokens.index(token), new_single_space)
   end
 end

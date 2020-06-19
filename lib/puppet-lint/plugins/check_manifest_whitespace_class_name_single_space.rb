@@ -9,7 +9,7 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_before) do
 
       next_token = class_token.next_token
       next unless tokens.index(name_token) != tokens.index(class_token) + 2 ||
-                  next_token.value != ' '
+                  !is_single_space(next_token)
 
       notify(
         :error,
@@ -38,7 +38,7 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
       next_token = name_token.next_token
       bracket_token = name_token.next_token_of(%i[LPAREN LBRACE])
       next unless tokens.index(name_token) != tokens.index(bracket_token) - 2 ||
-                  next_token.value != ' '
+                  !is_single_space(next_token)
 
       notify(
         :error,
@@ -55,7 +55,7 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
     bracket_token = token.prev_token.next_token_of(%i[LPAREN LBRACE])
 
     if token == bracket_token
-      add_token(tokens.index(bracket_token), PuppetLint::Lexer::Token.new(:WHITESPACE, ' ', 0, 0))
+      add_token(tokens.index(bracket_token), new_single_space)
       return
     end
 
@@ -68,6 +68,6 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
       token = token.next_token
     end
 
-    add_token(tokens.index(bracket_token), PuppetLint::Lexer::Token.new(:WHITESPACE, ' ', 0, 0))
+    add_token(tokens.index(bracket_token), new_single_space)
   end
 end
