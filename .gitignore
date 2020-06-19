@@ -1,0 +1,7 @@
+/.bundle/
+/vendor/gems/
+/Gemfile.lock
+pkg/
+.ruby-*
+/coverage/
+*.gem
