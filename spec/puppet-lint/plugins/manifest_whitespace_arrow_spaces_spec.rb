@@ -101,6 +101,54 @@ describe 'manifest_whitespace_arrows_single_space_after' do
     end
   end
 
+  context 'with string as space' do
+    let(:code) do
+      <<~EOF
+        class { 'example2':
+          param1 =>' ',
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect a single problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should create a error' do
+        expect(problems).to contain_error(single_space_msg).on_line(2).in_column(12)
+      end
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it 'should detect a single problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should fix the manifest' do
+        expect(problems).to contain_fixed(single_space_msg)
+      end
+
+      it 'should fix the space' do
+        expect(manifest).to eq(
+          <<~EOF,
+            class { 'example2':
+              param1 => ' ',
+            }
+          EOF
+        )
+      end
+    end
+  end
+
   context 'many resources' do
     let(:code) do
       <<~EOF
