@@ -1,6 +1,10 @@
 # puppet-lint manifest whitespace check
 
-Adds a new puppet-lint check to verify a number of whitspace issues (newlines etc.)
+Adds a new puppet-lint check to verify a number of whitespace issues (newlines etc.)
+
+These checks are very opinionated.
+
+**--fix support: Yes**
 
 ## Installation
 
@@ -13,6 +17,137 @@ gem 'puppet-lint-manifest_whitespace-check'
 
 ## Usage
 
-This plugin provides a new check to `puppet-lint`: `manifest_whitespace`
+This plugin provides a number of new checks to `puppet-lint`.
 
-**--fix support: Yes**
+### manifest_whitespace_class_opening_curly_brace
+
+> There should be a single space before the opening curly bracket of a class body.
+
+Good examples:
+
+```puppet
+class myclass (
+  # the parameters
+) {
+  # the body
+}
+
+class myclass {
+  # the body
+}
+```
+
+Bad examples:
+
+```puppet
+class myclass (
+  # the parameters
+)
+{
+  # the body
+}
+
+class myclass (
+  # the parameters
+){
+  # the body
+}
+
+class myclass
+{
+  # the body
+}
+```
+
+### manifest_whitespace_missing_newline_end_of_file
+
+> There should be a single newline at the end of a manifest.
+
+Not zero, not two or more. Be advised: this single newline is implicit at the end of your last line of code. This check does not add a single empty line!
+
+### manifest_whitespace_double_newline_end_of_file
+
+> There should be a single newline at the end of a manifest.
+
+Not zero, not two or more. Be advised: this single newline is implicit at the end of your last line of code. This check does not add a single empty line!
+
+### manifest_whitespace_arrows_single_space_after
+
+> There should be a single space after an arrow.
+
+When you list resource parameters or build a hash, you usually use arrow operators (`=>`). There are checks that make sure your arrows are aligned, but this check will ensure the number of spaces after your arrows is consistently 1.
+
+### manifest_whitespace_newline_beginning_of_file
+
+> There should not be a newline at the beginning of a manifest.
+
+There should not be empty lines at the beginning of your file.
+
+### manifest_whitespace_class_name_single_space_before
+
+> There should be a single space between the class or defined resource statement and the name.
+
+Good examples:
+
+```puppet
+class myclass (
+  # the parameters
+) {
+  # the body
+}
+
+class myclass {
+  # the body
+}
+```
+
+Bad example:
+
+```puppet
+class  myclass (
+  # the parameters
+) {
+  # the body
+}
+```
+
+### manifest_whitespace_class_name_single_space_after
+
+> There should be a single space between the class or resource name and the first bracket.
+
+Good examples:
+
+```puppet
+class myclass (
+  # the parameters
+) {
+  # the body
+}
+
+class myclass {
+  # the body
+}
+```
+
+Bad example:
+
+```puppet
+class myclass(
+  # the parameters
+){
+  # the body
+}
+
+class myclass  (
+  # the parameters
+){
+  # the body
+}
+
+class myclass
+(
+  # the parameters
+){
+  # the body
+}
+```
