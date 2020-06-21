@@ -4,7 +4,7 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_before) do
   def check
     (class_indexes + defined_type_indexes).each do |class_idx|
       class_token = class_idx[:tokens].first
-      name_token = class_token.next_token_of(:NAME)
+      name_token = class_token.next_token_of(%i[NAME FUNCTION_NAME])
       next unless name_token
 
       next_token = class_token.next_token
@@ -32,7 +32,7 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
   def check
     (class_indexes + defined_type_indexes).each do |class_idx|
       class_token = class_idx[:tokens].first
-      name_token = class_token.next_token_of(:NAME)
+      name_token = class_token.next_token_of(%i[NAME FUNCTION_NAME])
       next unless name_token
 
       next_token = name_token.next_token

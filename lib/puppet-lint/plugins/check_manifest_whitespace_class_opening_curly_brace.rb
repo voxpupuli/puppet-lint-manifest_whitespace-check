@@ -6,7 +6,7 @@ PuppetLint.new_check(:manifest_whitespace_class_opening_curly_brace) do
       class_token = class_idx[:tokens].first
       brace_token = class_token.next_token_of(:LBRACE)
       prev_token = brace_token.prev_token
-      prev_code_token = brace_token.prev_token_of(%i[RPAREN NAME])
+      prev_code_token = brace_token.prev_token_of(%i[RPAREN NAME FUNCTION_NAME])
 
       next unless prev_code_token
       next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
@@ -24,7 +24,7 @@ PuppetLint.new_check(:manifest_whitespace_class_opening_curly_brace) do
 
   def fix(problem)
     token = problem[:token]
-    prev_code_token = token.prev_token_of(%i[RPAREN NAME]).next_token
+    prev_code_token = token.prev_token_of(%i[RPAREN NAME FUNCTION_NAME]).next_token
 
     while token != prev_code_token
       unless %i[WHITESPACE INDENT NEWLINE].include?(prev_code_token.type)
