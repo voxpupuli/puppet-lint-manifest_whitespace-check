@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'puppet-lint-manifest_whitespace-check'
-  spec.version     = '0.1.1'
+  spec.version     = '0.1.2'
   spec.homepage    = 'https://github.com/kuleuven/puppet-lint-manifest_whitespace-check'
   spec.license     = 'MIT'
   spec.author      = 'Jo Vandeginste'
