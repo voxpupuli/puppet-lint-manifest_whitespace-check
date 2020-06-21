@@ -556,4 +556,91 @@ describe 'manifest_whitespace_class_opening_curly_brace' do
       end
     end
   end
+
+  context 'with good inherits' do
+    let(:code) do
+      <<~EOF
+        # example
+        #
+        # Main class, includes all other classes.
+        #
+
+        class example (
+          String $content,
+        ) inherits other::example {
+          class { 'example2':
+            param1 => 'value1',
+          }
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect no problem' do
+        expect(problems).to have(0).problems
+      end
+    end
+  end
+
+  context 'with bad inherits' do
+    let(:code) do
+      <<~EOF
+        # example
+        #
+        # Main class, includes all other classes.
+        #
+
+        class example (
+          String $content,
+        ) inherits other::example{
+          class { 'example2':
+            param1 => 'value1',
+          }
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect a single problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should create a error' do
+        expect(problems).to contain_error(opening_curly_brace_same_line_msg).on_line(8).in_column(26)
+      end
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it 'should detect a missing space' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should add the space' do
+        expect(manifest).to eq(
+          <<~EOF,
+            # example
+            #
+            # Main class, includes all other classes.
+            #
+
+            class example (
+              String $content,
+            ) inherits other::example {
+              class { 'example2':
+                param1 => 'value1',
+              }
+            }
+          EOF
+        )
+      end
+    end
+  end
 end
