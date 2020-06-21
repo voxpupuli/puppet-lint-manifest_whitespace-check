@@ -1,0 +1,21 @@
+language: ruby
+cache: bundler
+script:
+  - bundle exec rake spec
+rvm:
+  - "2.1"
+  - "2.4"
+  - "2.5"
+  - "2.6"
+matrix:
+  fast_finish: true
+deploy:
+  provider: rubygems
+  api_key:
+    secure: "myoSKv8o72awG/Ue6HjFg+39V2Yzm3NPJ9bIorsw5JwPAXUwYpRAhq5Nu3SIGTAfKMcm/OBhWu3o4YWuTkPcHv9vaMfkpHO5OKLKvNAFZH+kPdQClH5cS3JB74BUFuXzn48QuJGCtPBusLrlZkYb2IYYAu+pY15M5wlat3bMy7vVDgIITN9RXSz6EsLcssiF4EUguyVmDCmnfbSnPdf/qUs2VQiEgmkZpJ5uFpKW1gSkI6IrOtSJRRCnW6Y0hiG44N6pka+x9xOm+ETpszknd17LaElELSqD43K8/buJIDnwQ0CNbwRNIwUbl01QX3zG2r64YkYD6WfQeV5voxeNGT71UDqILQpEql6IlksV7QlQ8cyqdsjKC3M47ETdKEPtQ7tMD4M+MocTRuhGlGOJAlXLNHdiKiYNbXJ6GLlpu37uk4OlOiz7DErXQJEpl4Iv/DRXn5j5ThdQdSc3dDUXUhpip7Bs/lwbtWv5lkG2yp5XtqwlU6F0MjQAaE6XroXRBvmXzAAKknckk6XpsswKycyAEE2YUAgPhWFOLh6oTNRyqByCHcY2SQmbeTTNor7RTauaz+9LeHlYfNDiOnSdYvEPxNv8iK/o90r50qPxuFev/aWzgAnNzUzwbkx/oZhTnmGxg0BkAdRyNeeu3IgpXqMmrqXHYvmEBogsNefHong="
+  on:
+    rvm: "2.6"
+    tags: true
+    all_branches: true
+notifications:
+  email: false
