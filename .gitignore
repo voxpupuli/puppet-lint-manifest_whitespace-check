@@ -1,5 +1,5 @@
 /.bundle/
-/vendor/gems/
+/vendor/
 /Gemfile.lock
 pkg/
 .ruby-*
