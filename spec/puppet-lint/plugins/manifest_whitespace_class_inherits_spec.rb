@@ -69,7 +69,7 @@ describe 'manifest_whitespace_inherits_name_single_space_before' do
 end
 
 describe 'manifest_whitespace_inherits_name_single_space_after' do
-  let(:single_space_msg) { 'there should be a single space between the class or resource name and the first bracket' }
+  let(:single_space_msg) { 'there should be a single space between the class or resource name and the first brace' }
 
   context 'with no spaces' do
     let(:code) do

@@ -69,7 +69,69 @@ describe 'manifest_whitespace_class_name_single_space_before' do
 end
 
 describe 'manifest_whitespace_class_name_single_space_after' do
-  let(:single_space_msg) { 'there should be a single space between the class or resource name and the first bracket' }
+  let(:single_space_msg) { 'there should be a single space between the class or resource name and the first brace' }
+
+  context 'with scope and no spaces' do
+    let(:code) do
+      <<~EOF
+        # example
+        #
+        # Main class, includes all other classes.
+        #
+
+        class mymodule::example{
+          class  { 'example2':
+            param1 => 'value1',
+          }
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect a single problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should create a error' do
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(24)
+      end
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it 'should detect a single problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should fix the manifest' do
+        expect(problems).to contain_fixed(single_space_msg)
+      end
+
+      it 'should fix the newline' do
+        expect(manifest).to eq(
+          <<~EOF,
+            # example
+            #
+            # Main class, includes all other classes.
+            #
+
+            class mymodule::example {
+              class  { 'example2':
+                param1 => 'value1',
+              }
+            }
+          EOF
+        )
+      end
+    end
+  end
 
   context 'with no spaces' do
     let(:code) do
@@ -308,7 +370,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
 end
 
 describe 'manifest_whitespace_class_opening_curly_brace' do
-  let(:opening_curly_brace_same_line_msg) { 'there should be a single space before the opening curly bracket of a class body' }
+  let(:opening_curly_brace_same_line_msg) { 'there should be a single space before the opening curly brace of a class body' }
 
   context 'with no spaces' do
     let(:code) do

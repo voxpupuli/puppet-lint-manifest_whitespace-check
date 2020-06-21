@@ -21,7 +21,7 @@ This plugin provides a number of new checks to `puppet-lint`.
 
 ### manifest_whitespace_class_opening_curly_brace
 
-> There should be a single space before the opening curly bracket of a class body.
+> There should be a single space before the opening curly brace of a class body.
 
 Good examples:
 
@@ -113,7 +113,7 @@ class  myclass (
 
 ### manifest_whitespace_class_name_single_space_after
 
-> There should be a single space between the class or resource name and the first bracket.
+> There should be a single space between the class or resource name and the first brace.
 
 Good examples:
 
