@@ -19,9 +19,9 @@ gem 'puppet-lint-manifest_whitespace-check'
 
 This plugin provides a number of new checks to `puppet-lint`.
 
-### manifest_whitespace_class_opening_curly_brace
+### manifest_whitespace_opening_curly_brace_before
 
-> There should be a single space before the opening curly brace of a class body.
+> There should be a single space before an opening curly brace
 
 Good examples:
 
@@ -34,6 +34,14 @@ class myclass (
 
 class myclass {
   # the body
+}
+
+class myclass {
+  $value = [{ 'key' => 'value' }]
+
+  if somecondition {
+    class { 'someclass': }
+  }
 }
 ```
 
@@ -56,6 +64,12 @@ class myclass (
 class myclass
 {
   # the body
+}
+
+class myclass {
+  if somecondition{
+    class{ 'someclass': }
+  }
 }
 ```
 
