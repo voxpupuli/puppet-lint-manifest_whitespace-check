@@ -19,9 +19,17 @@ gem 'puppet-lint-manifest_whitespace-check'
 
 This plugin provides a number of new checks to `puppet-lint`.
 
-### manifest_whitespace_opening_curly_brace_before
+### manifest_whitespace_opening_bracket_after
 
-> There should be a single space before an opening curly brace
+> There should be a single space or single newline after an opening curly brace
+
+Exceptions: other brackets or comma's
+
+### manifest_whitespace_opening_bracket_before
+
+> There should be a single space before an opening bracket
+
+Exceptions: other brackets
 
 Good examples:
 
