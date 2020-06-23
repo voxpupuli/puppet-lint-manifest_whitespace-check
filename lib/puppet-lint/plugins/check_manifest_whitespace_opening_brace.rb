@@ -4,10 +4,10 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
   def check
     tokens.select { |token| token.type == :LBRACE }.each do |brace_token|
       prev_token = brace_token.prev_token
-      prev_code_token = brace_token.prev_code_token
+      prev_code_token = prev_non_space_token(brace_token)
 
       next unless prev_token && prev_code_token
-      next if %i[LBRACK LBRACE COMMA].include?(prev_code_token.type)
+      next if %i[LBRACK LBRACE COMMA COMMENT].include?(prev_code_token.type)
       next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
                   !is_single_space(prev_token)
 
@@ -24,7 +24,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
   def fix(problem)
     token = problem[:token]
     prev_token = token.prev_token
-    prev_code_token = token.prev_code_token
+    prev_code_token = prev_non_space_token(token)
 
     while prev_code_token != prev_token
       unless %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)

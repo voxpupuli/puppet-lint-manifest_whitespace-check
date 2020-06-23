@@ -6,7 +6,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_before) do
       prev_token = bracket_token.prev_token
       next unless prev_token
 
-      prev_code_token = bracket_token.prev_code_token
+      prev_code_token = prev_non_space_token(bracket_token)
       next unless prev_code_token
 
       next unless %i[NEWLINE INDENT WHITESPACE].include?(prev_token.type)
@@ -56,7 +56,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_after) do
       next if after_bracket_tokens.include?(next_token.type)
 
       if next_token.type == :WHITESPACE
-        next_code_token = bracket_token.next_code_token
+        next_code_token = next_non_space_token(bracket_token)
         next unless next_code_token
         next unless after_bracket_tokens.include?(next_code_token.type)
       end

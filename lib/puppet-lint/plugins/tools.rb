@@ -11,3 +11,15 @@ end
 def after_bracket_tokens
   %i[RBRACE RBRACK RPAREN SEMIC COMMA COLON NEWLINE DQPOST]
 end
+
+def prev_non_space_token(token)
+  while token = token.prev_token
+    return token unless %i[WHITESPACE INDENT NEWLINE].include?(token.type)
+  end
+end
+
+def next_non_space_token(token)
+  while token = token.next_token
+    return token unless %i[WHITESPACE INDENT NEWLINE].include?(token.type)
+  end
+end

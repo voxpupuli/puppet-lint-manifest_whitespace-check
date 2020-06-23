@@ -5,6 +5,20 @@ require 'spec_helper'
 describe 'manifest_whitespace_opening_brace_before' do
   let(:opening_brace_msg) { 'there should be a single space before an opening brace' }
 
+  context 'with comment only' do
+    let(:code) do
+      <<~EOF
+        $value7 = {
+          # nothing
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with no spaces' do
     let(:code) do
       <<~EOF
@@ -29,6 +43,9 @@ describe 'manifest_whitespace_opening_brace_before' do
           $value4 = ['somekey']
           $value5 = []
           $value6 = {}
+          $value7 = {
+            # nothing
+          }
 
           if somecondition{
             class{ 'example2':
@@ -91,6 +108,9 @@ describe 'manifest_whitespace_opening_brace_before' do
               $value4 = ['somekey']
               $value5 = []
               $value6 = {}
+              $value7 = {
+                # nothing
+              }
 
               if somecondition {
                 class { 'example2':
@@ -332,29 +352,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
     context 'with fix disabled' do
       it 'should detect a single problem' do
-        expect(problems).to have(2).problem
-      end
-
-      it 'should create a error' do
-        expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(1)
-      end
-    end
-
-    context 'with fix enabled' do
-      before do
-        PuppetLint.configuration.fix = true
-      end
-
-      after do
-        PuppetLint.configuration.fix = false
-      end
-
-      it 'should detect a single problem' do
-        expect(problems).to have(2).problem
-      end
-
-      it 'should not fix the manifest' do
-        expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(1)
+        expect(problems).to have(0).problem
       end
     end
   end
@@ -516,6 +514,9 @@ describe 'manifest_whitespace_opening_brace_after' do
           $value4 = ['somekey']
           $value5 = []
           $value6 = {}
+          $value7 = {
+            # nothing
+          }
 
           if somecondition {
             class {  'example2':
@@ -578,6 +579,9 @@ describe 'manifest_whitespace_opening_brace_after' do
               $value4 = ['somekey']
               $value5 = []
               $value6 = {}
+              $value7 = {
+                # nothing
+              }
 
               if somecondition {
                 class { 'example2':

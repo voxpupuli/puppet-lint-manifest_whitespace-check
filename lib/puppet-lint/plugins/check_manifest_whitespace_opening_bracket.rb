@@ -4,7 +4,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
   def check
     tokens.select { |token| token.type == :LBRACK }.each do |bracket_token|
       prev_token = bracket_token.prev_token
-      prev_code_token = bracket_token.prev_code_token
+      prev_code_token = prev_non_space_token(bracket_token)
 
       next unless prev_token && prev_code_token
       next if %i[LBRACK LBRACE COMMA SEMIC].include?(prev_code_token.type)
@@ -25,7 +25,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
   def fix(problem)
     token = problem[:token]
     prev_token = token.prev_token
-    prev_code_token = token.prev_code_token
+    prev_code_token = prev_non_space_token(token)
 
     while prev_code_token != prev_token
       unless %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)

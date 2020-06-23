@@ -5,6 +5,20 @@ require 'spec_helper'
 describe 'manifest_whitespace_closing_brace_before' do
   let(:closing_brace_msg) { 'there should be a bracket or a single newline before a closing brace' }
 
+  context 'with comment only' do
+    let(:code) do
+      <<~EOF
+        $value7 = {
+          # nothing
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with no spaces' do
     let(:code) do
       <<~EOF
@@ -30,6 +44,9 @@ describe 'manifest_whitespace_closing_brace_before' do
           $value5 = []
           $value6 = {}
           $value7 = "x${server_facts['environment']}y"
+          $value8 = {
+            # nothing
+          }
 
           if someothercondition { include ::otherclass}
           if somecondition {
@@ -91,6 +108,9 @@ describe 'manifest_whitespace_closing_brace_before' do
               $value5 = []
               $value6 = {}
               $value7 = "x${server_facts['environment']}y"
+              $value8 = {
+                # nothing
+              }
 
               if someothercondition { include ::otherclass }
               if somecondition {

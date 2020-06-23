@@ -4,7 +4,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
   def check
     tokens.select { |token| token.type == :RBRACE }.each do |brace_token|
       prev_token = brace_token.prev_token
-      prev_code_token = brace_token.prev_code_token
+      prev_code_token = prev_non_space_token(brace_token)
 
       next unless prev_token && prev_code_token
       next if %i[LBRACE RBRACK RBRACE].include?(prev_token.type)
@@ -66,7 +66,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_after) do
       next if after_bracket_tokens.include?(next_token.type)
 
       if next_token.type == :WHITESPACE
-        next_code_token = brace_token.next_code_token
+        next_code_token = next_non_space_token(brace_token)
         next unless next_code_token
         next unless after_bracket_tokens.include?(next_code_token.type)
       end
