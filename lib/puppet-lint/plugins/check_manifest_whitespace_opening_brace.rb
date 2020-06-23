@@ -1,24 +1,19 @@
 # frozen_string_literal: true
 
-PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
+PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
   def check
-    tokens.select { |token| %i[LBRACE LPAREN LBRACK].include?(token.type) }.each do |brace_token|
+    tokens.select { |token| token.type == :LBRACE }.each do |brace_token|
       prev_token = brace_token.prev_token
       prev_code_token = brace_token.prev_code_token
 
       next unless prev_token && prev_code_token
-      if %i[LPAREN LBRACK LBRACE COMMA SEMIC].include?(prev_code_token.type)
-        next
-      end
-      if brace_token.type != :LBRACE && !%i[WHITESPACE NEWLINE INDENT].include?(prev_token.type)
-        next
-      end
+      next if %i[LBRACK LBRACE COMMA].include?(prev_code_token.type)
       next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
                   !is_single_space(prev_token)
 
       notify(
         :error,
-        message: 'there should be a single space before an opening bracket',
+        message: 'there should be a single space before an opening brace',
         line: brace_token.line,
         column: brace_token.column,
         token: brace_token,
@@ -44,16 +39,13 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
   end
 end
 
-PuppetLint.new_check(:manifest_whitespace_opening_bracket_after) do
+PuppetLint.new_check(:manifest_whitespace_opening_brace_after) do
   def check
-    tokens.select { |token| %i[LBRACE LPAREN LBRACK].include?(token.type) }.each do |brace_token|
+    tokens.select { |token| token.type == :LBRACE }.each do |brace_token|
       next_token = brace_token.next_token
 
       next unless next_token && !is_single_space(next_token)
-      next if %i[LPAREN LBRACK LBRACE RBRACE].include?(next_token.type)
-      if brace_token.type != :LBRACE && !%i[WHITESPACE NEWLINE INDENT].include?(next_token.type)
-        next
-      end
+      next if %i[LBRACK LBRACE RBRACE].include?(next_token.type)
 
       if next_token.type == :NEWLINE
         next_token = next_token.next_token
@@ -62,7 +54,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_after) do
 
       notify(
         :error,
-        message: 'there should be a single space or single newline after an opening bracket',
+        message: 'there should be a single space or single newline after an opening brace',
         line: next_token.line,
         column: next_token.column,
         token: next_token,
