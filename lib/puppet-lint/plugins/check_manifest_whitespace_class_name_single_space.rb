@@ -36,13 +36,13 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
       next unless name_token
 
       next_token = name_token.next_token
-      brace_token = name_token.next_token_of(%i[LPAREN LBRACE])
-      next unless tokens.index(name_token) != tokens.index(brace_token) - 2 ||
+      next_code_token = next_non_space_token(name_token)
+      next unless tokens.index(name_token) != tokens.index(next_code_token) - 2 ||
                   !is_single_space(next_token)
 
       notify(
         :error,
-        message: 'there should be a single space between the class or resource name and the first brace',
+        message: 'there should be a single space between the class or resource name and the next item',
         line: next_token.line,
         column: next_token.column,
         token: next_token,
@@ -52,22 +52,13 @@ PuppetLint.new_check(:manifest_whitespace_class_name_single_space_after) do
 
   def fix(problem)
     token = problem[:token]
-    brace_token = token.prev_token.next_token_of(%i[LPAREN LBRACE])
+    next_code_token = next_non_space_token(token.prev_token)
 
-    if token == brace_token
-      add_token(tokens.index(brace_token), new_single_space)
-      return
-    end
-
-    while token != brace_token
-      unless %i[WHITESPACE INDENT NEWLINE].include?(token.type)
-        raise PuppetLint::NoFix
-      end
-
+    while token != next_code_token
       remove_token(token)
       token = token.next_token
     end
 
-    add_token(tokens.index(brace_token), new_single_space)
+    add_token(tokens.index(next_code_token), new_single_space)
   end
 end

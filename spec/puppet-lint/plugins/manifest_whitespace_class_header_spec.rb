@@ -66,10 +66,34 @@ describe 'manifest_whitespace_class_name_single_space_before' do
       end
     end
   end
+
+  context 'with inherits' do
+    let(:code) do
+      'class example inherits otherexample {'
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
 end
 
 describe 'manifest_whitespace_class_name_single_space_after' do
-  let(:single_space_msg) { 'there should be a single space between the class or resource name and the first brace' }
+  let(:single_space_msg) { 'there should be a single space between the class or resource name and the next item' }
+
+  context 'with inherits' do
+    let(:code) do
+      <<~EOF
+        class example inherits otherexample {
+          assert_private()
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
 
   context 'with parameters and no spaces' do
     let(:code) do
@@ -405,32 +429,8 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       EOF
     end
 
-    context 'with fix disabled' do
-      it 'should detect a single problem' do
-        expect(problems).to have(1).problem
-      end
-
-      it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
-      end
-    end
-
-    context 'with fix enabled' do
-      before do
-        PuppetLint.configuration.fix = true
-      end
-
-      after do
-        PuppetLint.configuration.fix = false
-      end
-
-      it 'should detect a single problem' do
-        expect(problems).to have(1).problem
-      end
-
-      it 'should not fix the manifest' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
-      end
+    it 'should detect no problem' do
+      expect(problems).to have(0).problems
     end
   end
 end
