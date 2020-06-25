@@ -7,9 +7,9 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
       prev_code_token = prev_non_space_token(brace_token)
 
       next unless prev_token && prev_code_token
-      next if %i[LBRACE RBRACK RBRACE].include?(prev_token.type)
+      next if %i[LBRACE].include?(prev_token.type)
 
-      unless %i[LBRACE RBRACK RBRACE].include?(prev_code_token.type)
+      unless %i[LBRACE].include?(prev_code_token.type)
         if is_single_space(prev_token) && tokens.index(prev_code_token) == tokens.index(brace_token) - 2
           next
         end

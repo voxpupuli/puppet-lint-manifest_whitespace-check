@@ -19,6 +19,21 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'with cases' do
+    let(:code) do
+      <<~EOF
+        case $facts['kernel'] {
+          'OpenBSD': { $has_wordexp = false }
+          default:   { $has_wordexp = true }
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with no spaces' do
     let(:code) do
       <<~EOF

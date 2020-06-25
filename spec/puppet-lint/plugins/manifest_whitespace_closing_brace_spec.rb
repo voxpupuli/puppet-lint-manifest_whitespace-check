@@ -5,6 +5,18 @@ require 'spec_helper'
 describe 'manifest_whitespace_closing_brace_before' do
   let(:closing_brace_msg) { 'there should be a bracket or a single newline before a closing brace' }
 
+  context 'with nested hash' do
+    let(:code) do
+      <<~EOF
+        Hash $instances  = { 'localhost' => { 'url' => 'http://localhost/mod_status?auto' } },
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with comment only' do
     let(:code) do
       <<~EOF
