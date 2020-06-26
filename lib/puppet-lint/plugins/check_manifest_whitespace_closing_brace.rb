@@ -25,7 +25,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
 
       notify(
         :error,
-        message: 'there should be a bracket or a single newline before a closing brace',
+        message: 'there should be a single space or newline before a closing brace',
         line: prev_code_token.next_token.line,
         column: prev_code_token.next_token.column,
         token: prev_code_token.next_token,
@@ -51,7 +51,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
       next_token = next_token.next_token
     end
 
-    if next_token.type == :RBRACE && !%i[LBRACE RBRACE RBRACK NEWLINE INDENT].include?(next_token.prev_token.type)
+    if next_token.type == :RBRACE && !%i[LBRACE NEWLINE INDENT].include?(next_token.prev_token.type)
       add_token(tokens.index(next_token), new_single_space)
     end
   end

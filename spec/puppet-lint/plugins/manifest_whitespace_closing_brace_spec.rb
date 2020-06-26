@@ -3,7 +3,37 @@
 require 'spec_helper'
 
 describe 'manifest_whitespace_closing_brace_before' do
-  let(:closing_brace_msg) { 'there should be a bracket or a single newline before a closing brace' }
+  let(:closing_brace_msg) { 'there should be a single space or newline before a closing brace' }
+
+  context 'with plus' do
+    let(:code) do
+      <<~EOF
+        $my_images = { 'default' => {}}
+      EOF
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it 'should fix a error' do
+        expect(problems).to contain_fixed(closing_brace_msg)
+      end
+
+      it 'should add spaces' do
+        expect(manifest).to eq(
+          <<~EOF,
+            $my_images = { 'default' => {} }
+          EOF
+        )
+      end
+    end
+  end
 
   context 'with nested hash' do
     let(:code) do
