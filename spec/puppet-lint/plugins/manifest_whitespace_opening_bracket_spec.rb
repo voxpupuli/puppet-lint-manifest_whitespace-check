@@ -5,6 +5,22 @@ require 'spec_helper'
 describe 'manifest_whitespace_opening_bracket_before' do
   let(:opening_bracket_msg) { 'there should be a single space before an opening bracket' }
 
+  context 'with iterator' do
+    let(:code) do
+      <<~EOF
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with no spaces' do
     let(:code) do
       <<~EOF
@@ -227,6 +243,22 @@ end
 
 describe 'manifest_whitespace_opening_bracket_after' do
   let(:opening_bracket_msg) { 'there should be no whitespace or a single newline after an opening bracket' }
+
+  context 'with iterator' do
+    let(:code) do
+      <<~EOF
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
 
   context 'with a single space' do
     let(:code) do
