@@ -153,7 +153,23 @@ describe 'manifest_whitespace_closing_bracket_before' do
 end
 
 describe 'manifest_whitespace_closing_bracket_after' do
-  let(:closing_bracket_msg) { 'there should be either a bracket, comma, colon, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned' }
+  let(:closing_bracket_msg) { 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned' }
+
+  context 'with iterator' do
+    let(:code) do
+      <<~EOF
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+
+        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
 
   context 'with spaces' do
     let(:code) do

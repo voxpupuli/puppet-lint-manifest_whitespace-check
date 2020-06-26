@@ -55,6 +55,8 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_after) do
       next unless next_token
       next if after_bracket_tokens.include?(next_token.type)
 
+      warn next_token.inspect
+
       if next_token.type == :WHITESPACE
         next_code_token = next_non_space_token(bracket_token)
         next unless next_code_token
@@ -63,7 +65,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_after) do
 
       notify(
         :error,
-        message: 'there should be either a bracket, comma, colon, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned',
+        message: 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned',
         line: next_token.line,
         column: next_token.column,
         token: next_token,

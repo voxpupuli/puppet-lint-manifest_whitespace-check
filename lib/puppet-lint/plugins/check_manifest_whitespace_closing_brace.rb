@@ -73,7 +73,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_after) do
 
       notify(
         :error,
-        message: 'there should be either a bracket, comma, colon, closing quote or a newline after a closing brace, or whitespace and none of the aforementioned',
+        message: 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing brace, or whitespace and none of the aforementioned',
         line: next_token.line,
         column: next_token.column,
         token: next_token,
