@@ -155,6 +155,18 @@ end
 describe 'manifest_whitespace_closing_bracket_after' do
   let(:closing_bracket_msg) { 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned' }
 
+  context 'with many brackets' do
+    let(:code) do
+      <<~EOF
+        ensure_packages($spaceweather::packages, { require => Class['Mongodb::Globals'] })
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
   context 'with iterator' do
     let(:code) do
       <<~EOF
@@ -219,12 +231,12 @@ describe 'manifest_whitespace_closing_bracket_after' do
     end
 
     context 'with fix disabled' do
-      it 'should detect 3 problems' do
-        expect(problems).to have(3).problem
+      it 'should detect 2 problems' do
+        expect(problems).to have(2).problem
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(closing_bracket_msg).on_line(9).in_column(32)
+        expect(problems).to contain_error(closing_bracket_msg).on_line(23).in_column(22)
       end
     end
 
@@ -252,7 +264,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
             class example (
               String $content,
             ) {
-              $value = { 'key' => ['value']}
+              $value = { 'key' => ['value'] }
               $value2 = [
                 {
                   'key' => 'value1',
