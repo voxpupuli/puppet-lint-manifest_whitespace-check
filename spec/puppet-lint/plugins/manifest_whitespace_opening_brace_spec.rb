@@ -34,6 +34,46 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'with class no spaces' do
+    let(:code) do
+      <<~EOF
+        class example{
+          # some generic comment
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect a problem' do
+        expect(problems).to have(1).problem
+      end
+
+      it 'should create a error' do
+        expect(problems).to contain_error(opening_brace_msg).on_line(1).in_column(14)
+      end
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it 'should add a space' do
+        expect(manifest).to eq(
+          <<~EOF,
+            class example {
+              # some generic comment
+            }
+          EOF
+        )
+      end
+    end
+  end
+
   context 'with no spaces' do
     let(:code) do
       <<~EOF
