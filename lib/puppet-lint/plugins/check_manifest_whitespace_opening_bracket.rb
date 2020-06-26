@@ -9,7 +9,8 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       next unless prev_token && prev_code_token
       next if %i[LBRACK LBRACE COMMA SEMIC].include?(prev_code_token.type)
       next unless %i[WHITESPACE NEWLINE INDENT].include?(prev_token.type)
-      if prev_token.type == :NEWLINE && %i[RBRACK RBRACE].include?(prev_code_token.type)
+
+      if %i[INDENT NEWLINE].include?(prev_token.type) && %i[RBRACK RBRACE].include?(prev_code_token.type)
         next
       end
       next unless tokens.index(prev_code_token) != tokens.index(bracket_token) - 2 ||

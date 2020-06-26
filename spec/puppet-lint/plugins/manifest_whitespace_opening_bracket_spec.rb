@@ -8,10 +8,12 @@ describe 'manifest_whitespace_opening_bracket_before' do
   context 'with iterator' do
     let(:code) do
       <<~EOF
-        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
-        }
+        {
+          if condition {
+          }
 
-        ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+          ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
+          }
         }
       EOF
     end
