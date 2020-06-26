@@ -9,6 +9,21 @@ describe 'manifest_whitespace_opening_bracket_before' do
     let(:code) do
       <<~EOF
         {
+          # some generic comment
+          ['some', 'values']
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to have(0).problem
+    end
+  end
+
+  context 'with iterator' do
+    let(:code) do
+      <<~EOF
+        {
           if condition {
           }
 
