@@ -119,7 +119,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(7)
       end
     end
 
@@ -183,7 +183,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(24)
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(7)
       end
     end
 
@@ -245,7 +245,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(7)
       end
     end
 
@@ -307,7 +307,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(7)
       end
     end
 
@@ -372,7 +372,7 @@ describe 'manifest_whitespace_class_name_single_space_after' do
       end
 
       it 'should create a error' do
-        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(14)
+        expect(problems).to contain_error(single_space_msg).on_line(6).in_column(7)
       end
     end
 
