@@ -7,7 +7,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
       prev_code_token = prev_non_space_token(brace_token)
 
       next unless prev_token && prev_code_token
-      if %i[LBRACK LBRACE COLON COMMA COMMENT].include?(prev_code_token.type)
+      if %i[LPAREN LBRACK LBRACE COLON COMMA COMMENT].include?(prev_code_token.type)
         next
       end
       next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
