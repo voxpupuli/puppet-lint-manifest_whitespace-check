@@ -302,4 +302,123 @@ describe 'manifest_whitespace_closing_bracket_after' do
       end
     end
   end
+
+  context 'inside heredoc' do
+    describe 'issue10 example' do
+      let(:code) do
+        <<~CODE
+          file { '/tmp/test':
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            content => Sensitive(@("EOF")),
+            # hostname:port:database:username:password
+            127.0.0.1:5432:aos:${variable}:${hash['password']}
+            localhost:5432:aos:${variable}:${hash['password']}
+            | EOF
+          }
+        CODE
+      end
+
+      it 'should detect no problems' do
+        expect(problems).to have(0).problem
+      end
+    end
+
+    describe 'interpolated hash key in middle of line' do
+      let(:code) do
+        <<~CODE
+          $content = @("EOF")
+            somestring:${foo['bar']}:more
+            more stuff
+            | EOF
+          # more puppet code follows
+        CODE
+      end
+
+      it 'should detect no problems' do
+        expect(problems).to have(0).problem
+      end
+
+      context 'with unwanted whitespace' do
+        let(:code) do
+          <<~CODE
+            $content = @("EOF")
+              somestring:${foo['bar'] }:more
+              more stuff
+              | EOF
+            # more puppet code follows
+          CODE
+        end
+
+        it 'should detect 1 problem' do
+          expect(problems).to have(1).problem
+        end
+      end
+    end
+
+    describe 'interpolated hash key at end of line' do
+      let(:code) do
+        <<~CODE
+          $content = @("EOF")
+            somestring:${foo['bar']}
+            more stuff
+            | EOF
+          # more puppet code follows
+        CODE
+      end
+
+      it 'should detect no problems' do
+        expect(problems).to have(0).problem
+      end
+
+      context 'with unwanted whitespace' do
+        let(:code) do
+          <<~CODE
+            $content = @("EOF")
+              somestring:${foo['bar'] }
+              more stuff
+              | EOF
+            # more puppet code follows
+          CODE
+        end
+
+        it 'should detect 1 problem' do
+          expect(problems).to have(1).problem
+        end
+      end
+    end
+
+    describe 'interpolated hash key at end of heredoc' do
+      let(:code) do
+        <<~CODE
+          $content = @("EOF")
+            # Some random heredoc preamble
+            somestring:${foo['bar']}
+            | EOF
+          # more puppet code follows
+        CODE
+      end
+
+      it 'should detect no problems' do
+        expect(problems).to have(0).problem
+      end
+
+      context 'with unwanted whitespace' do
+        let(:code) do
+          <<~CODE
+            $content = @("EOF")
+              # Some random heredoc preamble
+              somestring:${foo['bar'] }
+              | EOF
+            # more puppet code follows
+          CODE
+        end
+
+        it 'should detect 1 problem' do
+          expect(problems).to have(1).problem
+        end
+      end
+    end
+  end
 end
