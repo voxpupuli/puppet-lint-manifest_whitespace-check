@@ -31,6 +31,18 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'inline with a function' do
+    let(:code) do
+      <<~EOF
+        Hash({ $key => $return_value })
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'inside a function' do
     let(:code) do
       <<~EOF
