@@ -9,7 +9,7 @@ def new_single_space
 end
 
 def after_bracket_tokens
-  %i[RBRACK RPAREN SEMIC COMMA COLON DOT NEWLINE DQMID DQPOST LBRACK]
+  %i[RBRACK RPAREN SEMIC COMMA COLON DOT NEWLINE DQMID DQPOST LBRACK HEREDOC_MID HEREDOC_POST]
 end
 
 def prev_non_space_token(token)
