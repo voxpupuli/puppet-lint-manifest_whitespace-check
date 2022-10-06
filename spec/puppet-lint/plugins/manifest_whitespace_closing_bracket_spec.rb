@@ -43,7 +43,7 @@ describe 'manifest_whitespace_closing_bracket_before' do
 
     context 'with fix disabled' do
       it 'should detect 0 problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end
@@ -163,7 +163,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -179,7 +179,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -321,7 +321,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
       end
 
       it 'should detect no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
 
@@ -337,7 +337,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
       end
 
       it 'should detect no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do
@@ -369,7 +369,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
       end
 
       it 'should detect no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do
@@ -401,7 +401,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
       end
 
       it 'should detect no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do

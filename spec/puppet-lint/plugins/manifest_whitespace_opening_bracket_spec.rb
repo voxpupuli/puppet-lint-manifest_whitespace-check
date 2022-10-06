@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'manifest_whitespace_opening_bracket_before' do
   let(:opening_bracket_msg) { 'there should be a single space before an opening bracket' }
 
-  context 'with iterator' do
+  context 'with comment' do
     let(:code) do
       <<~EOF
         {
@@ -16,7 +16,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -34,7 +34,25 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'with multiline iterator' do
+    let(:code) do
+      <<~EOF
+        include my::class
+
+        [
+          'a',
+          'b',
+        ].each |$i| { }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      pending 'Fix the linter'
+      expect(problems).to be_empty
     end
   end
 
@@ -75,7 +93,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
     context 'with fix disabled' do
       it 'should detect 0 problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end
@@ -211,7 +229,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
     context 'with fix disabled' do
       it 'should detect a no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end
@@ -252,7 +270,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
     context 'with fix disabled' do
       it 'should detect a no problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end
@@ -273,7 +291,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -407,7 +425,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
 
     context 'with fix disabled' do
       it 'should detect 0 problems' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end

@@ -20,7 +20,7 @@ describe 'manifest_whitespace_newline_beginning_of_file' do
     end
 
     it 'should not detect any problems' do
-      expect(problems).to have(0).problems
+      expect(problems).to be_empty
     end
   end
 

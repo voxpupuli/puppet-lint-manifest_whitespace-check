@@ -43,7 +43,7 @@ describe 'manifest_whitespace_closing_brace_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -59,7 +59,7 @@ describe 'manifest_whitespace_closing_brace_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -73,7 +73,7 @@ describe 'manifest_whitespace_closing_brace_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -413,7 +413,7 @@ describe 'manifest_whitespace_closing_brace_after' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 

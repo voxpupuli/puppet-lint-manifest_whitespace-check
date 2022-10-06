@@ -15,7 +15,26 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'inside a function' do
+    let(:code) do
+      <<~EOF
+        $my_var = lookup(
+          {
+            'name'          => 'my_module::my_var',
+            'merge'         => 'deep',
+            'value_type'    => Array[Hash],
+            'default_value' => [],
+          }
+        )
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
     end
   end
 
@@ -30,7 +49,7 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
 
     it 'should detect no problems' do
-      expect(problems).to have(0).problem
+      expect(problems).to be_empty
     end
   end
 
@@ -407,7 +426,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
     context 'with fix disabled' do
       it 'should detect a single problem' do
-        expect(problems).to have(0).problem
+        expect(problems).to be_empty
       end
     end
   end
@@ -446,7 +465,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
     context 'with fix disabled' do
       it 'should detect no problem' do
-        expect(problems).to have(0).problems
+        expect(problems).to be_empty
       end
     end
   end
