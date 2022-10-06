@@ -19,6 +19,18 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'inside interpolation' do
+    let(:code) do
+      <<~EOF
+        my_define { "foo-${myvar}": }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'inside a function' do
     let(:code) do
       <<~EOF
