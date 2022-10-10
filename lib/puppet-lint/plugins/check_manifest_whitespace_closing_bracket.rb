@@ -11,12 +11,8 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_before) do
 
       next unless %i[NEWLINE INDENT WHITESPACE].include?(prev_token.type)
 
-      if prev_token.type == :INDENT
-        next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 3
-      end
-      if prev_token.type == :NEWLINE
-        next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 2
-      end
+      next if prev_token.type == :INDENT && (tokens.index(prev_code_token) == tokens.index(bracket_token) - 3)
+      next if prev_token.type == :NEWLINE && (tokens.index(prev_code_token) == tokens.index(bracket_token) - 2)
 
       notify(
         :error,
@@ -37,9 +33,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_bracket_before) do
 
     next_token = token.next_token
     until next_token.type == :RBRACK
-      if next_token.type == :INDENT && next_token.next_token.type == :RBRACK
-        break
-      end
+      break if next_token.type == :INDENT && next_token.next_token.type == :RBRACK
 
       remove_token(next_token)
       next_token = next_token.next_token

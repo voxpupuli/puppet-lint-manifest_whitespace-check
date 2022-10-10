@@ -7,14 +7,10 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       prev_code_token = prev_non_space_token(bracket_token)
 
       next unless prev_token && prev_code_token
-      if %i[LBRACK LBRACE COMMA SEMIC COMMENT].include?(prev_code_token.type)
-        next
-      end
+      next if %i[LBRACK LBRACE COMMA SEMIC COMMENT].include?(prev_code_token.type)
       next unless %i[WHITESPACE NEWLINE INDENT].include?(prev_token.type)
 
-      if %i[INDENT NEWLINE].include?(prev_token.type) && %i[RBRACK RBRACE].include?(prev_code_token.type)
-        next
-      end
+      next if %i[INDENT NEWLINE].include?(prev_token.type) && %i[RBRACK RBRACE].include?(prev_code_token.type)
       next unless tokens.index(prev_code_token) != tokens.index(bracket_token) - 2 ||
                   !is_single_space(prev_token)
 
@@ -34,9 +30,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
     prev_code_token = prev_non_space_token(token)
 
     while prev_code_token != prev_token
-      unless %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)
-        raise PuppetLint::NoFix
-      end
+      raise PuppetLint::NoFix unless %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)
 
       remove_token(prev_token)
       prev_token = prev_token.prev_token
