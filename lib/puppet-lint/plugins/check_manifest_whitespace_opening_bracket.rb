@@ -10,18 +10,15 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       next if %i[COMMENT COLON].include?(prev_code_token.type)
       next if %i[INDENT NEWLINE].include?(prev_token.type) && %i[NAME RBRACK RBRACE].include?(prev_code_token.type)
 
-      if %i[CLASSREF].include?(prev_code_token.type) && (tokens.index(prev_code_token) == tokens.index(bracket_token) - 1)
-        next
-      end
+      next if %i[CLASSREF VARIABLE].include?(prev_code_token.type) && prev_code_token == prev_token
 
-      if %i[LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
-        next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 1
+      if %i[RBRACK RBRACE RPAREN LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
+        next if prev_code_token == prev_token
         next if tokens[tokens.index(prev_code_token)..tokens.index(bracket_token)].collect(&:type).include?(:NEWLINE)
       elsif tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 &&
             is_single_space(prev_token)
         next
       end
-      is_single_space(prev_token)
 
       if prev_code_token.type == :LBRACE
         ppct = prev_non_space_token(prev_code_token)

@@ -38,6 +38,18 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
   end
 
+  context 'with array key in interpolation' do
+    let(:code) do
+      <<~EOF
+        "${my_array['keyname']}"
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'with multiline iterator' do
     let(:code) do
       <<~EOF
