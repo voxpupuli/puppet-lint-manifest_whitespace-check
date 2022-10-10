@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'puppet-lint-manifest_whitespace-check'
-  spec.version     = '0.1.17'
+  spec.version     = '0.2.1'
   spec.homepage    = 'https://github.com/kuleuven/puppet-lint-manifest_whitespace-check'
   spec.license     = 'MIT'
   spec.author      = 'Jo Vandeginste'
@@ -13,7 +13,6 @@ Gem::Specification.new do |spec|
     'lib/**/*',
     'spec/**/*',
   ]
-  spec.test_files  = Dir['spec/**/*']
   spec.summary     = 'A puppet-lint check to validate whitespace in manifests'
   spec.description = <<-EOF
     A new check for puppet-lint that validates generic whitespace issues in manifests.
@@ -28,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec-collection_matchers', '~> 1.0'
   spec.add_development_dependency 'rspec-its', '~> 1.0'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end
