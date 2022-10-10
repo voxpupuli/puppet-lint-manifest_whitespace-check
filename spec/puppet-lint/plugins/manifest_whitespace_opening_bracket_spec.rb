@@ -66,7 +66,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
         class example (
           String $content,
           Optional[String] $some_other_content,
-        ){
+        ) {
           $value = [{ 'key' => 'value' }]
           $value2 = [
             {
@@ -81,10 +81,13 @@ describe 'manifest_whitespace_opening_bracket_before' do
           $value5 = []
           $value6 = {}
 
-          if somecondition{
-            class{ 'example2':
+          if somecondition {
+            class { 'example2':
               param1  => 'value1',
               require => File['somefile'],
+            }
+            package { ['pack1', 'pack2']:
+              ensure => present,
             }
           }
         }

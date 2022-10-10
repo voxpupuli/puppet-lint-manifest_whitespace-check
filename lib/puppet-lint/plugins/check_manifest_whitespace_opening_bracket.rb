@@ -22,6 +22,11 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
                     !is_single_space(prev_token)
       end
 
+      if prev_code_token.type == :LBRACE
+        ppct = prev_non_space_token(prev_code_token)
+        next if ppct && ppct.type == :NAME && %i[INDENT WHITESPACE NEWLINE].include?(prev_token.type)
+      end
+
       notify(
         :error,
         message: 'there should be a single space before an opening bracket',
