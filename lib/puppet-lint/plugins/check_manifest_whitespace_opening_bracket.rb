@@ -17,14 +17,18 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       if %i[LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
         next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 1
         next if tokens[tokens.index(prev_code_token)..tokens.index(bracket_token)].collect(&:type).include?(:NEWLINE)
-      else
-        next unless tokens.index(prev_code_token) != tokens.index(bracket_token) - 2 ||
-                    !is_single_space(prev_token)
+      elsif tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 &&
+            is_single_space(prev_token)
+        next
       end
+      is_single_space(prev_token)
 
       if prev_code_token.type == :LBRACE
         ppct = prev_non_space_token(prev_code_token)
-        next if ppct && ppct.type == :NAME && %i[INDENT WHITESPACE NEWLINE].include?(prev_token.type)
+        if ppct && ppct.type == :NAME
+          next if %i[INDENT NEWLINE].include?(prev_token.type)
+          next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 && is_single_space(prev_token)
+        end
       end
 
       notify(
