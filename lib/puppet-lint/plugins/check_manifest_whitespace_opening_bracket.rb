@@ -7,7 +7,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       prev_code_token = prev_non_space_token(bracket_token)
 
       next unless prev_token && prev_code_token
-      next if %i[LBRACK LBRACE COMMA SEMIC COMMENT].include?(prev_code_token.type)
+      next if %i[LBRACK LBRACE COMMA SEMIC COMMENT NAME].include?(prev_code_token.type)
       next unless %i[WHITESPACE NEWLINE INDENT].include?(prev_token.type)
 
       next if %i[INDENT NEWLINE].include?(prev_token.type) && %i[RBRACK RBRACE].include?(prev_code_token.type)

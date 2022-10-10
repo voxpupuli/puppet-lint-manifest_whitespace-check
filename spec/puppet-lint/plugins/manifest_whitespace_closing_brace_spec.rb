@@ -402,9 +402,9 @@ describe 'manifest_whitespace_closing_brace_before' do
 end
 
 describe 'manifest_whitespace_closing_brace_after' do
-  let(:closing_brace_msg) {
+  let(:closing_brace_msg) do
     'there should be either a bracket, punctuation mark, closing quote or a newline after a closing brace, or whitespace and none of the aforementioned'
-  }
+  end
 
   context 'with iterator' do
     let(:code) do
@@ -416,6 +416,18 @@ describe 'manifest_whitespace_closing_brace_after' do
 
     it 'should detect no problems' do
       expect(problems).to be_empty
+    end
+  end
+
+  context 'inline with a function after' do
+    let(:code) do
+      <<~EOF
+        Hash({ $key => $return_value } )
+      EOF
+    end
+
+    it 'should detect 1 problem' do
+      expect(problems).to have(1).problem
     end
   end
 

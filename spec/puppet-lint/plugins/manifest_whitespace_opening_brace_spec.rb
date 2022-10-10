@@ -39,20 +39,6 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
 
     it 'should detect 1 problem' do
-      skip 'implement this test'
-      expect(problems).to have(1).problem
-    end
-  end
-
-  context 'inline with a function after' do
-    let(:code) do
-      <<~EOF
-        Hash({ $key => $return_value } )
-      EOF
-    end
-
-    it 'should detect 1 problem' do
-      skip 'implement this test'
       expect(problems).to have(1).problem
     end
   end

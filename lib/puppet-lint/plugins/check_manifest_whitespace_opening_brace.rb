@@ -7,9 +7,17 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
       prev_code_token = prev_non_space_token(brace_token)
 
       next unless prev_token && prev_code_token
-      next if %i[LPAREN LBRACK LBRACE COLON COMMA COMMENT].include?(prev_code_token.type)
-      next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
-                  !is_single_space(prev_token)
+
+      next if %i[COLON].include?(prev_code_token.type)
+
+      if %i[COMMENT COMMA LPAREN LBRACK LBRACE].include?(prev_code_token.type)
+        next if tokens.index(prev_code_token) == tokens.index(brace_token) - 1
+        next if tokens[tokens.index(prev_code_token)..tokens.index(brace_token)].collect(&:type).include?(:NEWLINE)
+
+      else
+        next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
+                    !is_single_space(prev_token)
+      end
 
       notify(
         :error,

@@ -51,7 +51,6 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
 
     it 'should detect no problems' do
-      pending 'Fix the linter'
       expect(problems).to be_empty
     end
   end
