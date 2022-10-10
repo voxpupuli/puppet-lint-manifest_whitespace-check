@@ -35,13 +35,16 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
     prev_code_token = prev_non_space_token(token)
 
     while prev_code_token != prev_token
-      raise PuppetLint::NoFix unless %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)
+      if !%i[LPAREN LBRACK LBRACE].include?(prev_code_token.type) &&
+         %i[WHITESPACE INDENT NEWLINE].include?(prev_token.type)
+        raise PuppetLint::NoFix
+      end
 
       remove_token(prev_token)
       prev_token = prev_token.prev_token
     end
 
-    add_token(tokens.index(token), new_single_space)
+    add_token(tokens.index(token), new_single_space) unless %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
   end
 end
 
