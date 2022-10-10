@@ -6,15 +6,16 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       prev_token = bracket_token.prev_token
       prev_code_token = prev_non_space_token(bracket_token)
 
-      next if %i[COMMA].include?(prev_code_token.type) && %i[INDENT NEWLINE].include?(prev_token.type)
-      next if %i[COMMENT COLON].include?(prev_code_token.type)
+      next if %i[SEMIC COMMA COLON].include?(prev_code_token.type) && %i[INDENT NEWLINE].include?(prev_token.type)
+      next if %i[COMMENT].include?(prev_code_token.type)
       next if %i[INDENT NEWLINE].include?(prev_token.type) && %i[NAME RBRACK RBRACE].include?(prev_code_token.type)
-
-      next if %i[CLASSREF VARIABLE].include?(prev_code_token.type) && prev_code_token == prev_token
+      next if %i[CLASSREF VARIABLE].include?(prev_code_token.type) && (prev_code_token == prev_token)
 
       if %i[RBRACK RBRACE RPAREN LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
         next if prev_code_token == prev_token
-        next if tokens[tokens.index(prev_code_token)..tokens.index(bracket_token)].collect(&:type).include?(:NEWLINE)
+        next if %i[INDENT NEWLINE].include?(prev_token.type)
+      elsif %i[CLASSREF VARIABLE].include?(prev_code_token.type)
+        # not good
       elsif tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 &&
             is_single_space(prev_token)
         next
@@ -22,6 +23,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
 
       if prev_code_token.type == :LBRACE
         ppct = prev_non_space_token(prev_code_token)
+
         if ppct && ppct.type == :NAME
           next if %i[INDENT NEWLINE].include?(prev_token.type)
           next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 && is_single_space(prev_token)

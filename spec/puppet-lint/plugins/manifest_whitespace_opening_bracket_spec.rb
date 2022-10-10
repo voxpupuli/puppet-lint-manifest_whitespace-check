@@ -101,7 +101,48 @@ describe 'manifest_whitespace_opening_bracket_before' do
             package { ['pack1', 'pack2']:
               ensure => present,
             }
+            package {
+              ['pack3', 'pack4']:
+                ensure => present;
+              ['pack5', 'pack6']:
+                ensure => present;
+            }
           }
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect 0 problems' do
+        expect(problems).to be_empty
+      end
+    end
+  end
+
+  context 'with resource inline' do
+    let(:code) do
+      <<~EOF
+        package { ['pack1', 'pack2']:
+          ensure => present,
+        }
+      EOF
+    end
+
+    context 'with fix disabled' do
+      it 'should detect 0 problems' do
+        expect(problems).to be_empty
+      end
+    end
+  end
+
+  context 'with resource next line' do
+    let(:code) do
+      <<~EOF
+        package {
+          ['pack3', 'pack4']:
+            ensure => present;
+          ['pack5', 'pack6']:
+            ensure => present;
         }
       EOF
     end
