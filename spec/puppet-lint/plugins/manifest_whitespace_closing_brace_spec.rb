@@ -402,7 +402,9 @@ describe 'manifest_whitespace_closing_brace_before' do
 end
 
 describe 'manifest_whitespace_closing_brace_after' do
-  let(:closing_brace_msg) { 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing brace, or whitespace and none of the aforementioned' }
+  let(:closing_brace_msg) {
+    'there should be either a bracket, punctuation mark, closing quote or a newline after a closing brace, or whitespace and none of the aforementioned'
+  }
 
   context 'with iterator' do
     let(:code) do

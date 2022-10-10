@@ -28,8 +28,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
     context 'with 1 empty line at the end of a manifest' do
       let(:code) do
         <<~EOF
-        class example {
-        }
+          class example {
+          }
 
         EOF
       end
@@ -46,8 +46,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
     context 'with 3 empty lines at the end of a manifest' do
       let(:code) do
         <<~EOF
-        class example {
-        }
+          class example {
+          }
 
 
 
@@ -78,8 +78,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
     context 'with 1 empty line at the end of a manifest' do
       let(:code) do
         <<~EOF
-        class example {
-        }
+          class example {
+          }
 
         EOF
       end
@@ -95,8 +95,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
       it 'should add the final newline' do
         expect(manifest).to eq(
           <<~EOF
-          class example {
-          }
+            class example {
+            }
           EOF
         )
       end
@@ -105,8 +105,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
     context 'with 3 empty lines at the end of a manifest' do
       let(:code) do
         <<~EOF
-        class example {
-        }
+          class example {
+          }
 
 
 
@@ -126,8 +126,8 @@ describe 'manifest_whitespace_double_newline_end_of_file' do
       it 'should add the final newline' do
         expect(manifest).to eq(
           <<~EOF
-          class example {
-          }
+            class example {
+            }
           EOF
         )
       end

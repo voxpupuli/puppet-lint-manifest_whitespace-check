@@ -153,7 +153,9 @@ describe 'manifest_whitespace_closing_bracket_before' do
 end
 
 describe 'manifest_whitespace_closing_bracket_after' do
-  let(:closing_bracket_msg) { 'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned' }
+  let(:closing_bracket_msg) {
+    'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned'
+  }
 
   context 'with many brackets' do
     let(:code) do

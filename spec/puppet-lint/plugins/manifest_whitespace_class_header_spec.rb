@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 describe 'manifest_whitespace_class_name_single_space_before' do
-  let(:single_space_msg) { 'there should be a single space between the class or defined resource statement and the name' }
+  let(:single_space_msg) {
+    'there should be a single space between the class or defined resource statement and the name'
+  }
 
   context 'with two spaces' do
     let(:code) do
