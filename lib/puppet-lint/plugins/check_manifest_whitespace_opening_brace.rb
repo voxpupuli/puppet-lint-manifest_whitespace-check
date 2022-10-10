@@ -8,9 +8,9 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
 
       next unless prev_token && prev_code_token
 
-      next if %i[COLON].include?(prev_code_token.type)
+      next if %i[COMMENT COLON].include?(prev_code_token.type)
 
-      if %i[COMMENT COMMA LPAREN LBRACK LBRACE].include?(prev_code_token.type)
+      if %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
         next if tokens.index(prev_code_token) == tokens.index(brace_token) - 1
         next if tokens[tokens.index(prev_code_token)..tokens.index(brace_token)].collect(&:type).include?(:NEWLINE)
 
