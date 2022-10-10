@@ -14,7 +14,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
         next
       end
 
-      if %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
+      if %i[LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
         next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 1
         next if tokens[tokens.index(prev_code_token)..tokens.index(bracket_token)].collect(&:type).include?(:NEWLINE)
       else

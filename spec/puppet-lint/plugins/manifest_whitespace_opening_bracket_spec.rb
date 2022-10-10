@@ -65,6 +65,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
         class example (
           String $content,
+          Optional[String] $some_other_content,
         ){
           $value = [{ 'key' => 'value' }]
           $value2 = [
