@@ -51,7 +51,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_after) do
       next_token = brace_token.next_token
 
       next unless next_token && !is_single_space(next_token)
-      next if %i[RBRACE].include?(next_token.type)
+      next if %i[RBRACE LBRACK LBRACE].include?(next_token.type)
 
       if next_token.type == :NEWLINE
         next_token = next_token.next_token

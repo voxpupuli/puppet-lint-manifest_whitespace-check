@@ -19,6 +19,23 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'inside, inline with function' do
+    let(:code) do
+      <<~EOF
+        $sssd_config = {
+        ▏ 'sssd' => merge($config, {
+        ▏ ▏ ▏ 'domains'  => $domains,
+        ▏ ▏ ▏ 'services' => 'nss,pam',
+        ▏ }),
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'inside interpolation' do
     let(:code) do
       <<~EOF
