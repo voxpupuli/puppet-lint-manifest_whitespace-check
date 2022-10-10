@@ -44,7 +44,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       prev_token = prev_token.prev_token
     end
 
-    add_token(tokens.index(token), new_single_space)
+    add_token(tokens.index(token), new_single_space) unless %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
   end
 end
 
