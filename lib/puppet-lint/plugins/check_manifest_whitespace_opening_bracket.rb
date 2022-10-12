@@ -9,7 +9,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
       next if %i[SEMIC COMMA COLON].include?(prev_code_token.type) && %i[INDENT NEWLINE].include?(prev_token.type)
       next if %i[COMMENT].include?(prev_code_token.type)
       next if %i[INDENT NEWLINE].include?(prev_token.type) && %i[NAME RBRACK RBRACE].include?(prev_code_token.type)
-      next if %i[CLASSREF VARIABLE].include?(prev_code_token.type) && (prev_code_token == prev_token)
+      next if %i[CLASSREF VARIABLE NAME].include?(prev_code_token.type) && (prev_code_token == prev_token)
 
       if %i[RBRACK RBRACE RPAREN LPAREN LBRACK LBRACE TYPE].include?(prev_code_token.type)
         next if prev_code_token == prev_token
