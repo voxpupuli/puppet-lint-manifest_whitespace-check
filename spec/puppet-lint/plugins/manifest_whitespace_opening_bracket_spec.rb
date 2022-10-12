@@ -80,7 +80,11 @@ describe 'manifest_whitespace_opening_bracket_before' do
           Optional[String] $some_other_content,
           Array $var = lookup('foo::bar', Array, undef, [])
         ) {
-          if ("${var}" in fact.keys) and (fact["${var}"] != $var2.keys[0]) {
+          if $fact["${var}"] != $var2.keys[0] {
+            # noop
+          }
+
+          if fact["${var}"] != $var2.keys[0] {
             # noop
           }
 
