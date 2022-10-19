@@ -4,7 +4,7 @@ PuppetLint.new_check(:manifest_whitespace_missing_newline_end_of_file) do
   def check
     last_token = tokens.last
 
-    if last_token.type != :NEWLINE
+    if last_token && last_token.type != :NEWLINE
       notify(
         :error,
         message: 'there should be a single newline at the end of a manifest',
@@ -25,7 +25,7 @@ PuppetLint.new_check(:manifest_whitespace_double_newline_end_of_file) do
   def check
     last_token = tokens.last
 
-    if last_token.type == :NEWLINE
+    if last_token && last_token.type == :NEWLINE
       while last_token.prev_token && last_token.prev_token.type == :NEWLINE
         notify(
           :error,
