@@ -153,9 +153,28 @@ describe 'manifest_whitespace_closing_bracket_before' do
 end
 
 describe 'manifest_whitespace_closing_bracket_after' do
-  let(:closing_bracket_msg) {
+  let(:closing_bracket_msg) do
     'there should be either a bracket, punctuation mark, closing quote or a newline after a closing bracket, or whitespace and none of the aforementioned'
-  }
+  end
+
+  context 'inside heredoc' do
+    let(:code) do
+      <<~EOF
+        class test::heredoc {
+          $unsupported = @("MESSAGE"/L)
+            This does not support ${facts['os']['name']} ${$facts['os']['release']['major']}; \
+            see ${support_urls['supported_platforms']} for more information\
+            | MESSAGE
+
+          fail($unsupported)
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
 
   context 'with many brackets' do
     let(:code) do
