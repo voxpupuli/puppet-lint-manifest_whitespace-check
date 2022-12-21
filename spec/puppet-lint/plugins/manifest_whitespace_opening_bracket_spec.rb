@@ -5,6 +5,25 @@ require 'spec_helper'
 describe 'manifest_whitespace_opening_bracket_before' do
   let(:opening_bracket_msg) { 'there should be a single space before an opening bracket' }
 
+  context 'inside heredoc' do
+    let(:code) do
+      <<~EOF
+        class test::heredoc {
+          $unsupported = @("MESSAGE"/L)
+            This does not support ${facts['os']['name']} ${$facts['os']['release']['major']}; \
+            see ${support_urls['supported_platforms']} for more information\
+            | MESSAGE
+
+          fail($unsupported)
+        }
+      EOF
+    end
+
+    it 'should detect no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'with comment' do
     let(:code) do
       <<~EOF
@@ -87,6 +106,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
           if fact["${var}"] != $var2.keys[0] {
             # noop
           }
+          $variable_customfact = $facts['customfact_name'][$variable]
 
           $value = [{ 'key' => 'value' }]
           $value2 = [
