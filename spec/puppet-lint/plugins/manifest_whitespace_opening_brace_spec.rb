@@ -5,6 +5,18 @@ require 'spec_helper'
 describe 'manifest_whitespace_opening_brace_before' do
   let(:opening_brace_msg) { 'there should be a single space before an opening brace' }
 
+  context 'parameters without space' do
+    let(:code) do
+      <<~CODE
+        $foo = lookup('foo::bar',Hash,'first',{})
+      CODE
+    end
+
+    it 'detects a problem' do
+      expect(problems).not_to be_empty
+    end
+  end
+
   context 'with comment only' do
     let(:code) do
       <<~EOF
