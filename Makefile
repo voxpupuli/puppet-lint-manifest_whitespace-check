@@ -2,11 +2,11 @@ GEM_NAME=puppet-lint-manifest_whitespace-check
 GEMSPEC_FILE=$(GEM_NAME).gemspec
 
 define get_version
-$(shell ruby -e "require 'rubygems'; load '$(GEMSPEC_FILE)'; puts Gem.latest_spec_for('$(GEM_NAME)').version")
+$(shell ruby -e "require 'rubygems'; load '$(GEMSPEC_FILE)'; puts Gem::Specification.all.find{|s| s.name == '$(GEM_NAME)'}.version")
 endef
 
 define get_next_patch_version
-$(shell ruby -e "require 'rubygems'; v = Gem.latest_spec_for('$(GEM_NAME)').version; puts Gem::Version.new(v.version+'.0').bump")
+$(shell ruby -e "require 'rubygems'; load '$(GEMSPEC_FILE)'; v = Gem::Specification.all.find{|s| s.name == '$(GEM_NAME)'}.version; puts Gem::Version.new(v.version+'.0').bump")
 endef
 
 .PHONY: all clean test release
