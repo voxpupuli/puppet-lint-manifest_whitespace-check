@@ -7,7 +7,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'inside heredoc' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         class test::heredoc {
           $unsupported = @("MESSAGE"/L)
             This does not support ${facts['os']['name']} ${$facts['os']['release']['major']}; \
@@ -16,32 +16,32 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
           fail($unsupported)
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with comment' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         {
           # some generic comment
           ['some', 'values']
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         {
           if condition {
           }
@@ -49,46 +49,46 @@ describe 'manifest_whitespace_opening_bracket_before' do
           ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
           }
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with array key in interpolation' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         "${my_array['keyname']}"
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with multiline iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         include my::class
 
         [
           'a',
           'b',
         ].each |$i| { }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -138,11 +138,11 @@ describe 'manifest_whitespace_opening_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 0 problems' do
+      it 'detects 0 problems' do
         expect(problems).to be_empty
       end
     end
@@ -150,15 +150,15 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'with resource inline' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         package { ['pack1', 'pack2']:
           ensure => present,
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 0 problems' do
+      it 'detects 0 problems' do
         expect(problems).to be_empty
       end
     end
@@ -166,18 +166,18 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'with resource next line' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         package {
           ['pack3', 'pack4']:
             ensure => present;
           ['pack5', 'pack6']:
             ensure => present;
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 0 problems' do
+      it 'detects 0 problems' do
         expect(problems).to be_empty
       end
     end
@@ -185,7 +185,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'with two spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -212,15 +212,15 @@ describe 'manifest_whitespace_opening_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a 2 problems' do
+      it 'detects a 2 problems' do
         expect(problems).to have(2).problems
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_bracket_msg).on_line(9).in_column(13)
       end
     end
@@ -234,17 +234,17 @@ describe 'manifest_whitespace_opening_bracket_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect a 2 problems' do
+      it 'detects a 2 problems' do
         expect(problems).to have(2).problems
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_bracket_msg)
       end
 
-      it 'should remove a space' do
+      it 'removes a space' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -271,7 +271,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -279,7 +279,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'with newline' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -309,11 +309,11 @@ describe 'manifest_whitespace_opening_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a no problems' do
+      it 'detects a no problems' do
         expect(problems).to be_empty
       end
     end
@@ -321,7 +321,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
 
   context 'with comment' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -350,11 +350,11 @@ describe 'manifest_whitespace_opening_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a no problems' do
+      it 'detects a no problems' do
         expect(problems).to be_empty
       end
     end
@@ -366,23 +366,23 @@ describe 'manifest_whitespace_opening_bracket_after' do
 
   context 'with iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
 
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with a single space' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -412,15 +412,15 @@ describe 'manifest_whitespace_opening_bracket_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 4 problems' do
+      it 'detects 4 problems' do
         expect(problems).to have(4).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_bracket_msg).on_line(9).in_column(13)
       end
     end
@@ -434,13 +434,13 @@ describe 'manifest_whitespace_opening_bracket_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_bracket_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -470,7 +470,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -478,7 +478,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -505,11 +505,11 @@ describe 'manifest_whitespace_opening_bracket_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 0 problems' do
+      it 'detects 0 problems' do
         expect(problems).to be_empty
       end
     end
@@ -517,7 +517,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
 
   context 'with two newlines' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -550,15 +550,15 @@ describe 'manifest_whitespace_opening_bracket_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 1 problems' do
+      it 'detects 1 problems' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_bracket_msg).on_line(12).in_column(1)
       end
     end
@@ -572,17 +572,17 @@ describe 'manifest_whitespace_opening_bracket_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect 1 problems' do
+      it 'detects 1 problems' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_bracket_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -614,7 +614,7 @@ describe 'manifest_whitespace_opening_bracket_after' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end

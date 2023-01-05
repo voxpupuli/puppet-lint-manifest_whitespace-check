@@ -7,9 +7,9 @@ describe 'manifest_whitespace_closing_brace_before' do
 
   context 'with plus' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         $my_images = { 'default' => {}}
-      EOF
+      CODE
     end
 
     context 'with fix enabled' do
@@ -21,15 +21,15 @@ describe 'manifest_whitespace_closing_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             $my_images = { 'default' => {} }
-          EOF
+          CODE
         )
       end
     end
@@ -37,49 +37,49 @@ describe 'manifest_whitespace_closing_brace_before' do
 
   context 'with nested hash' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         Hash $instances  = { 'localhost' => { 'url' => 'http://localhost/mod_status?auto' } },
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
 
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with comment only' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         $value7 = {
           # nothing
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -115,15 +115,15 @@ describe 'manifest_whitespace_closing_brace_before' do
             class { 'example3':}
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 3 problems' do
+      it 'detects 3 problems' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_brace_msg).on_line(9).in_column(31)
       end
     end
@@ -137,13 +137,13 @@ describe 'manifest_whitespace_closing_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -179,7 +179,7 @@ describe 'manifest_whitespace_closing_brace_before' do
                 class { 'example3': }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -187,7 +187,7 @@ describe 'manifest_whitespace_closing_brace_before' do
 
   context 'with too many spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -221,15 +221,15 @@ describe 'manifest_whitespace_closing_brace_before' do
             class { 'example3':  }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 4 problems' do
+      it 'detects 4 problems' do
         expect(problems).to have(4).problems
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_brace_msg).on_line(9).in_column(31)
       end
     end
@@ -243,13 +243,13 @@ describe 'manifest_whitespace_closing_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -283,7 +283,7 @@ describe 'manifest_whitespace_closing_brace_before' do
                 class { 'example3': }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -291,7 +291,7 @@ describe 'manifest_whitespace_closing_brace_before' do
 
   context 'with too many newlines' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -331,15 +331,15 @@ describe 'manifest_whitespace_closing_brace_before' do
           }
 
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 5 problems' do
+      it 'detects 5 problems' do
         expect(problems).to have(5).problems
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_brace_msg).on_line(15).in_column(25)
       end
     end
@@ -353,13 +353,13 @@ describe 'manifest_whitespace_closing_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_brace_msg)
       end
 
-      it 'should remove newlines' do
+      it 'removes newlines' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -394,7 +394,7 @@ describe 'manifest_whitespace_closing_brace_before' do
                 class { 'example3': }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -408,32 +408,32 @@ describe 'manifest_whitespace_closing_brace_after' do
 
   context 'with iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'inline with a function after' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         Hash({ $key => $return_value } )
-      EOF
+      CODE
     end
 
-    it 'should detect 1 problem' do
+    it 'detects 1 problem' do
       expect(problems).to have(1).problem
     end
   end
 
   context 'with spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -471,15 +471,15 @@ describe 'manifest_whitespace_closing_brace_after' do
             class { 'example3': }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 3 problems' do
+      it 'detects 3 problems' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_brace_msg).on_line(9).in_column(33)
       end
     end
@@ -493,13 +493,13 @@ describe 'manifest_whitespace_closing_brace_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -537,7 +537,7 @@ describe 'manifest_whitespace_closing_brace_after' do
                 class { 'example3': }
               }
             }
-          EOF
+          CODE
         )
       end
     end

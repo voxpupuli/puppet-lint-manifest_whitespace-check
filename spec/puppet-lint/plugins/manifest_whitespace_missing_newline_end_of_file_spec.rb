@@ -11,11 +11,11 @@ describe 'manifest_whitespace_missing_newline_end_of_file' do
         'class example { }'
       end
 
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(single_newline_end_of_file_msg).on_line(1).in_column(17)
       end
     end
@@ -35,15 +35,15 @@ describe 'manifest_whitespace_missing_newline_end_of_file' do
         'class example { }'
       end
 
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should fix the manifest' do
+      it 'fixes the manifest' do
         expect(problems).to contain_fixed(single_newline_end_of_file_msg).on_line(1).in_column(17)
       end
 
-      it 'should add the final newline' do
+      it 'adds the final newline' do
         expect(manifest).to eq("class example { }\n")
       end
     end

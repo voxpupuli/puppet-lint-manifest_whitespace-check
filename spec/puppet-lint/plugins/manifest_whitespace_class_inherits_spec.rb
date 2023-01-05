@@ -7,7 +7,7 @@ describe 'manifest_whitespace_inherits_name_single_space_before' do
 
   context 'with two spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -18,15 +18,15 @@ describe 'manifest_whitespace_inherits_name_single_space_before' do
             param1 => 'value1',
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(single_space_msg).on_line(6).in_column(23)
       end
     end
@@ -40,17 +40,17 @@ describe 'manifest_whitespace_inherits_name_single_space_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should fix the manifest' do
+      it 'fixes the manifest' do
         expect(problems).to contain_fixed(single_space_msg)
       end
 
-      it 'should fix the space' do
+      it 'fixes the space' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -61,7 +61,7 @@ describe 'manifest_whitespace_inherits_name_single_space_before' do
                 param1 => 'value1',
               }
             }
-          EOF
+          CODE
         )
       end
     end

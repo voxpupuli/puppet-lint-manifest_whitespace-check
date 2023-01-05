@@ -19,74 +19,74 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with comment only' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         $value7 = {
           # nothing
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'inside, inline with function' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         $sssd_config = {
         ▏ 'sssd' => merge($config, {
         ▏ ▏ ▏ 'domains'  => $domains,
         ▏ ▏ ▏ 'services' => 'nss,pam',
         ▏ }),
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'inside interpolation' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         my_define { "foo-${myvar}": }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'inline with a function before' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         Hash( { $key => $return_value })
-      EOF
+      CODE
     end
 
-    it 'should detect 1 problem' do
+    it 'detects 1 problem' do
       expect(problems).to have(1).problem
     end
   end
 
   context 'inline with a function' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         Hash({ $key => $return_value })
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'inside a function' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         $my_var = lookup(
           {
             'name'          => 'my_module::my_var',
@@ -95,44 +95,44 @@ describe 'manifest_whitespace_opening_brace_before' do
             'default_value' => [],
           }
         )
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with cases' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         case $facts['kernel'] {
           'OpenBSD': { $has_wordexp = false }
           default:   { $has_wordexp = true }
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with class no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         class example{
           # some generic comment
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a problem' do
+      it 'detects a problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(1).in_column(14)
       end
     end
@@ -146,13 +146,13 @@ describe 'manifest_whitespace_opening_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should add a space' do
+      it 'adds a space' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             class example {
               # some generic comment
             }
-          EOF
+          CODE
         )
       end
     end
@@ -160,7 +160,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -193,15 +193,15 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect three problems' do
+      it 'detects three problems' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(8).in_column(2)
       end
     end
@@ -215,17 +215,17 @@ describe 'manifest_whitespace_opening_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect three problems' do
+      it 'detects three problems' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -258,7 +258,7 @@ describe 'manifest_whitespace_opening_brace_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -266,7 +266,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with two spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -293,15 +293,15 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(8).in_column(4)
       end
     end
@@ -315,17 +315,17 @@ describe 'manifest_whitespace_opening_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should remove a space' do
+      it 'removes a space' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -352,7 +352,7 @@ describe 'manifest_whitespace_opening_brace_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -360,7 +360,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with newline' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -390,15 +390,15 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(1)
       end
     end
@@ -412,17 +412,17 @@ describe 'manifest_whitespace_opening_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(3).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should fix the newline' do
+      it 'fixes the newline' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -449,7 +449,7 @@ describe 'manifest_whitespace_opening_brace_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -457,7 +457,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with comment' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -486,11 +486,11 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to be_empty
       end
     end
@@ -498,7 +498,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with good inherits' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -525,11 +525,11 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect no problem' do
+      it 'detects no problem' do
         expect(problems).to be_empty
       end
     end
@@ -537,7 +537,7 @@ describe 'manifest_whitespace_opening_brace_before' do
 
   context 'with bad inherits' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -564,15 +564,15 @@ describe 'manifest_whitespace_opening_brace_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect a single problem' do
+      it 'detects a single problem' do
         expect(problems).to have(1).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(8).in_column(22)
       end
     end
@@ -586,13 +586,13 @@ describe 'manifest_whitespace_opening_brace_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect a missing space' do
+      it 'detects a missing space' do
         expect(problems).to have(1).problem
       end
 
-      it 'should add the space' do
+      it 'adds the space' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -619,7 +619,7 @@ describe 'manifest_whitespace_opening_brace_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -631,7 +631,7 @@ describe 'manifest_whitespace_opening_brace_after' do
 
   context 'with two spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -664,15 +664,15 @@ describe 'manifest_whitespace_opening_brace_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 2 problems' do
+      it 'detects 2 problems' do
         expect(problems).to have(2).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(14)
       end
     end
@@ -686,17 +686,17 @@ describe 'manifest_whitespace_opening_brace_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect 2 problems' do
+      it 'detects 2 problems' do
         expect(problems).to have(2).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -729,7 +729,7 @@ describe 'manifest_whitespace_opening_brace_after' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -737,7 +737,7 @@ describe 'manifest_whitespace_opening_brace_after' do
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -764,15 +764,15 @@ describe 'manifest_whitespace_opening_brace_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 2 problems' do
+      it 'detects 2 problems' do
         expect(problems).to have(2).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(14)
       end
     end
@@ -786,17 +786,17 @@ describe 'manifest_whitespace_opening_brace_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect 2 problems' do
+      it 'detects 2 problems' do
         expect(problems).to have(2).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -823,7 +823,7 @@ describe 'manifest_whitespace_opening_brace_after' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -831,7 +831,7 @@ describe 'manifest_whitespace_opening_brace_after' do
 
   context 'with two newlines' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -863,15 +863,15 @@ describe 'manifest_whitespace_opening_brace_after' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 4 problems' do
+      it 'detects 4 problems' do
         expect(problems).to have(4).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(opening_brace_msg).on_line(9).in_column(1)
       end
     end
@@ -885,17 +885,17 @@ describe 'manifest_whitespace_opening_brace_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect 4 problems' do
+      it 'detects 4 problems' do
         expect(problems).to have(4).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_fixed(opening_brace_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -923,7 +923,7 @@ describe 'manifest_whitespace_opening_brace_after' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end

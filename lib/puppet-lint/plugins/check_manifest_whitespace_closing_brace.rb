@@ -33,9 +33,9 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
     next_token = token
 
     until next_token.type == :RBRACE
-      break if tokens[tokens.index(next_token)..-1].first(2).collect(&:type) == %i[NEWLINE RBRACE]
+      break if tokens[tokens.index(next_token)..].first(2).collect(&:type) == %i[NEWLINE RBRACE]
 
-      break if tokens[tokens.index(next_token)..-1].first(3).collect(&:type) == %i[NEWLINE INDENT RBRACE]
+      break if tokens[tokens.index(next_token)..].first(3).collect(&:type) == %i[NEWLINE INDENT RBRACE]
 
       remove_token(next_token)
       next_token = next_token.next_token

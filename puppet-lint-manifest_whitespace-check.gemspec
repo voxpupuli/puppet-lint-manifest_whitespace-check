@@ -14,9 +14,7 @@ Gem::Specification.new do |spec|
     'spec/**/*',
   ]
   spec.summary     = 'A puppet-lint check to validate whitespace in manifests'
-  spec.description = <<-EOF
-    A new check for puppet-lint that validates generic whitespace issues in manifests.
-  EOF
+  spec.description = 'A new check for puppet-lint that validates generic whitespace issues in manifests.'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.0')
 

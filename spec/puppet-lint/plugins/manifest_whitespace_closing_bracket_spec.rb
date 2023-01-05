@@ -7,7 +7,7 @@ describe 'manifest_whitespace_closing_bracket_before' do
 
   context 'with no spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -38,11 +38,11 @@ describe 'manifest_whitespace_closing_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 0 problems' do
+      it 'detects 0 problems' do
         expect(problems).to be_empty
       end
     end
@@ -50,7 +50,7 @@ describe 'manifest_whitespace_closing_bracket_before' do
 
   context 'with too many spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -82,15 +82,15 @@ describe 'manifest_whitespace_closing_bracket_before' do
             }
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 5 problems' do
+      it 'detects 5 problems' do
         expect(problems).to have(5).problems
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_bracket_msg).on_line(9).in_column(33)
       end
     end
@@ -104,17 +104,17 @@ describe 'manifest_whitespace_closing_bracket_before' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should detect 5 problems' do
+      it 'detects 5 problems' do
         expect(problems).to have(5).problems
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_bracket_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -145,7 +145,7 @@ describe 'manifest_whitespace_closing_bracket_before' do
                 }
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -159,7 +159,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
 
   context 'inside heredoc' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         class test::heredoc {
           $unsupported = @("MESSAGE"/L)
             This does not support ${facts['os']['name']} ${$facts['os']['release']['major']}; \
@@ -168,45 +168,45 @@ describe 'manifest_whitespace_closing_bracket_after' do
 
           fail($unsupported)
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with many brackets' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         ensure_packages($spaceweather::packages, { require => Class['Mongodb::Globals'] })
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with iterator' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
 
         ['ib0', 'ib1', 'ib2', 'ib3', 'pub', 'oob', '0', '184'].each |String $name| {
         }
-      EOF
+      CODE
     end
 
-    it 'should detect no problems' do
+    it 'detects no problems' do
       expect(problems).to be_empty
     end
   end
 
   context 'with spaces' do
     let(:code) do
-      <<~EOF
+      <<~CODE
         # example
         #
         # Main class, includes all other classes.
@@ -248,15 +248,15 @@ describe 'manifest_whitespace_closing_bracket_after' do
             ensure   => installed,
           }
         }
-      EOF
+      CODE
     end
 
     context 'with fix disabled' do
-      it 'should detect 2 problems' do
+      it 'detects 2 problems' do
         expect(problems).to have(2).problem
       end
 
-      it 'should create a error' do
+      it 'creates a error' do
         expect(problems).to contain_error(closing_bracket_msg).on_line(23).in_column(22)
       end
     end
@@ -270,13 +270,13 @@ describe 'manifest_whitespace_closing_bracket_after' do
         PuppetLint.configuration.fix = false
       end
 
-      it 'should fix a error' do
+      it 'fixes a error' do
         expect(problems).to contain_fixed(closing_bracket_msg)
       end
 
-      it 'should add spaces' do
+      it 'adds spaces' do
         expect(manifest).to eq(
-          <<~EOF,
+          <<~CODE,
             # example
             #
             # Main class, includes all other classes.
@@ -318,7 +318,7 @@ describe 'manifest_whitespace_closing_bracket_after' do
                 ensure   => installed,
               }
             }
-          EOF
+          CODE
         )
       end
     end
@@ -332,16 +332,16 @@ describe 'manifest_whitespace_closing_bracket_after' do
             ensure  => file,
             owner   => 'root',
             group   => 'root',
-            content => Sensitive(@("EOF")),
+            content => Sensitive(@("CODE")),
             # hostname:port:database:username:password
             127.0.0.1:5432:aos:${variable}:${hash['password']}
             localhost:5432:aos:${variable}:${hash['password']}
-            | EOF
+            | CODE
           }
         CODE
       end
 
-      it 'should detect no problems' do
+      it 'detects no problems' do
         expect(problems).to be_empty
       end
     end
@@ -349,30 +349,30 @@ describe 'manifest_whitespace_closing_bracket_after' do
     describe 'interpolated hash key in middle of line' do
       let(:code) do
         <<~CODE
-          $content = @("EOF")
+          $content = @("CODE")
             somestring:${foo['bar']}:more
             more stuff
-            | EOF
+            | CODE
           # more puppet code follows
         CODE
       end
 
-      it 'should detect no problems' do
+      it 'detects no problems' do
         expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do
         let(:code) do
           <<~CODE
-            $content = @("EOF")
+            $content = @("CODE")
               somestring:${foo['bar'] }:more
               more stuff
-              | EOF
+              | CODE
             # more puppet code follows
           CODE
         end
 
-        it 'should detect 1 problem' do
+        it 'detects 1 problem' do
           expect(problems).to have(1).problem
         end
       end
@@ -381,30 +381,30 @@ describe 'manifest_whitespace_closing_bracket_after' do
     describe 'interpolated hash key at end of line' do
       let(:code) do
         <<~CODE
-          $content = @("EOF")
+          $content = @("CODE")
             somestring:${foo['bar']}
             more stuff
-            | EOF
+            | CODE
           # more puppet code follows
         CODE
       end
 
-      it 'should detect no problems' do
+      it 'detects no problems' do
         expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do
         let(:code) do
           <<~CODE
-            $content = @("EOF")
+            $content = @("CODE")
               somestring:${foo['bar'] }
               more stuff
-              | EOF
+              | CODE
             # more puppet code follows
           CODE
         end
 
-        it 'should detect 1 problem' do
+        it 'detects 1 problem' do
           expect(problems).to have(1).problem
         end
       end
@@ -413,30 +413,30 @@ describe 'manifest_whitespace_closing_bracket_after' do
     describe 'interpolated hash key at end of heredoc' do
       let(:code) do
         <<~CODE
-          $content = @("EOF")
+          $content = @("CODE")
             # Some random heredoc preamble
             somestring:${foo['bar']}
-            | EOF
+            | CODE
           # more puppet code follows
         CODE
       end
 
-      it 'should detect no problems' do
+      it 'detects no problems' do
         expect(problems).to be_empty
       end
 
       context 'with unwanted whitespace' do
         let(:code) do
           <<~CODE
-            $content = @("EOF")
+            $content = @("CODE")
               # Some random heredoc preamble
               somestring:${foo['bar'] }
-              | EOF
+              | CODE
             # more puppet code follows
           CODE
         end
 
-        it 'should detect 1 problem' do
+        it 'detects 1 problem' do
           expect(problems).to have(1).problem
         end
       end
