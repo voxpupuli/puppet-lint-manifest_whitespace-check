@@ -1,0 +1,53 @@
+require:
+  - rubocop-rspec
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.4
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/CommandLiteral:
+  EnforcedStyle: percent_x
+Style/Documentation:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false # TODO
+  Exclude:
+    - spec/**/*.rb
+Layout/LineLength:
+  Enabled: false # TODO
+  Exclude:
+    - spec/**/*.rb
+Metrics/CyclomaticComplexity:
+  Enabled: false # TODO
+  Exclude:
+    - spec/**/*.rb
+RSpec/ExampleLength:
+  Exclude:
+    - spec/**/*.rb
+RSpec/DescribeClass:
+  Exclude:
+    - spec/**/*.rb
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/**/*.rb
+RSpec/ContextWording:
+  Exclude:
+    - spec/**/*.rb
+RSpec/MultipleDescribes:
+  Exclude:
+    - spec/**/*.rb
+RSpec/NestedGroups:
+  Exclude:
+    - spec/**/*.rb
+
+# TODO:
+Metrics/MethodLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false

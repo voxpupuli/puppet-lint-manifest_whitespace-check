@@ -9,9 +9,7 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
       next unless prev_token && prev_code_token
       next if %i[LBRACE].include?(prev_token.type)
 
-      if !%i[LBRACE].include?(prev_code_token.type) && (is_single_space(prev_token) && tokens.index(prev_code_token) == tokens.index(brace_token) - 2)
-        next
-      end
+      next if !%i[LBRACE].include?(prev_code_token.type) && (is_single_space(prev_token) && tokens.index(prev_code_token) == tokens.index(brace_token) - 2)
 
       next if prev_token.type == :INDENT && (tokens.index(prev_code_token) == tokens.index(brace_token) - 3)
 
@@ -33,17 +31,15 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
     next_token = token
 
     until next_token.type == :RBRACE
-      break if tokens[tokens.index(next_token)..].first(2).collect(&:type) == %i[NEWLINE RBRACE]
+      break if tokens[tokens.index(next_token)..-1].first(2).collect(&:type) == %i[NEWLINE RBRACE]
 
-      break if tokens[tokens.index(next_token)..].first(3).collect(&:type) == %i[NEWLINE INDENT RBRACE]
+      break if tokens[tokens.index(next_token)..-1].first(3).collect(&:type) == %i[NEWLINE INDENT RBRACE]
 
       remove_token(next_token)
       next_token = next_token.next_token
     end
 
-    if next_token.type == :RBRACE && !%i[LBRACE NEWLINE INDENT].include?(next_token.prev_token.type)
-      add_token(tokens.index(next_token), new_single_space)
-    end
+    add_token(tokens.index(next_token), new_single_space) if next_token.type == :RBRACE && !%i[LBRACE NEWLINE INDENT].include?(next_token.prev_token.type)
   end
 end
 

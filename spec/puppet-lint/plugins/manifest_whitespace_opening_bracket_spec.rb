@@ -24,13 +24,10 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
   end
 
-  context 'with comment' do
+  context 'as value in an lambda' do
     let(:code) do
       <<~CODE
-        {
-          # some generic comment
-          ['some', 'values']
-        }
+        $result = assert_type(Array, $some_value) |$expected, $actual| { [] }
       CODE
     end
 
@@ -319,7 +316,7 @@ describe 'manifest_whitespace_opening_bracket_before' do
     end
   end
 
-  context 'with comment' do
+  context 'with comment 1' do
     let(:code) do
       <<~CODE
         # example
@@ -357,6 +354,21 @@ describe 'manifest_whitespace_opening_bracket_before' do
       it 'detects a no problems' do
         expect(problems).to be_empty
       end
+    end
+  end
+
+  context 'with comment 2' do
+    let(:code) do
+      <<~CODE
+        {
+          # some generic comment
+          ['some', 'values']
+        }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
     end
   end
 end

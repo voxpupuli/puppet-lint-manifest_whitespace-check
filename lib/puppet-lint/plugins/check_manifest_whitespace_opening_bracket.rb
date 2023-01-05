@@ -25,8 +25,9 @@ PuppetLint.new_check(:manifest_whitespace_opening_bracket_before) do
 
       if prev_code_token.type == :LBRACE
         ppct = prev_non_space_token(prev_code_token)
+        next unless ppct
 
-        if ppct && ppct.type == :NAME
+        if %i[NAME PIPE].include?(ppct.type)
           next if %i[INDENT NEWLINE].include?(prev_token.type)
           next if tokens.index(prev_code_token) == tokens.index(bracket_token) - 2 && is_single_space(prev_token)
         end
