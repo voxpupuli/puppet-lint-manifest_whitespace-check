@@ -31,14 +31,28 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'with an iterator' do
+    let(:code) do
+      <<~CODE
+        $slave_ifnames = $bonds.reduce({}) |$l, $i| {
+          $l + split($i['attached_devices'], /,/).reduce({}) |$sl, $d| { $sl + { $d => $i['identifier'] } }
+        }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
   context 'inside, inline with function' do
     let(:code) do
       <<~CODE
         $sssd_config = {
-        ▏ 'sssd' => merge($config, {
-        ▏ ▏ ▏ 'domains'  => $domains,
-        ▏ ▏ ▏ 'services' => 'nss,pam',
-        ▏ }),
+          'sssd' => merge($config, {
+             'domains'  => $domains,
+             'services' => 'nss,pam',
+          }),
         }
       CODE
     end

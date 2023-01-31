@@ -47,5 +47,20 @@ describe 'manifest_whitespace_missing_newline_end_of_file' do
         expect(manifest).to eq("class example { }\n")
       end
     end
+
+    context 'inside heredoc' do
+      let(:code) do
+        <<~CODE
+          $value = @("END_OF_HD")
+            SomeData
+          | - END_OF_HD
+          $other_value = 5
+        CODE
+      end
+
+      it 'detects no problems' do
+        expect(problems).to be_empty
+      end
+    end
   end
 end
