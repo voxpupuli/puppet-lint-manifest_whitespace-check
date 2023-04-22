@@ -1,5 +1,13 @@
 # puppet-lint manifest whitespace check
 
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-manifest_whitespace-check.svg)](https://github.com/voxpupuli/puppet-manifest_whitespace-check/blob/master/LICENSE)
+[![Test](https://github.com/voxpupuli/puppet-manifest_whitespace-check/actions/workflows/test.yml/badge.svg)](https://github.com/voxpupuli/puppet-manifest_whitespace-check/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/voxpupuli/puppet-manifest_whitespace-check/branch/master/graph/badge.svg?token=Mypkl78hvK)](https://codecov.io/gh/voxpupuli/puppet-manifest_whitespace-check)
+[![Release](https://github.com/voxpupuli/puppet-manifest_whitespace-check/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-manifest_whitespace-check/actions/workflows/release.yml)
+[![RubyGem Version](https://img.shields.io/gem/v/puppet-manifest_whitespace-check.svg)](https://rubygems.org/gems/puppet-manifest_whitespace-check)
+[![RubyGem Downloads](https://img.shields.io/gem/dt/puppet-manifest_whitespace-check.svg)](https://rubygems.org/gems/puppet-manifest_whitespace-check)
+[![Donated by Jo Vandeginste](https://img.shields.io/badge/donated%20by-Jo%20Vandeginste-fb7047.svg)](#copyright)
+
 Adds a new puppet-lint check to verify a number of whitespace issues (newlines etc.)
 
 These checks are very opinionated.
@@ -173,3 +181,22 @@ class myclass
   # the body
 }
 ```
+
+## License
+
+This project is licensed unter MIT
+
+## Transfer Notice
+
+This plugin was originally maintained by [Jo Vandeginste](https://github.com/jovandeginste).
+The maintainer preferred that [Vox Pupuli](https://voxpupuli.org/) take ownership of the module for future improvement and maintenance.
+
+## Release information
+
+To make a new release, please do:
+* update the version in the gemspec file
+* Install gems with `bundle install --with release --path .vendor`
+* generate the changelog with `bundle exec rake changelog`
+* Check if the new version matches the closed issues/PRs in the changelog
+* Create a PR with it
+* After it got merged, push a tag. GitHub actions will do the actual release to rubygems and GitHub Packages
