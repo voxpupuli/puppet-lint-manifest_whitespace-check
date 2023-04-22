@@ -9,7 +9,9 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
       next unless prev_token && prev_code_token
       next if %i[LBRACE].include?(prev_token.type)
 
-      next if !%i[LBRACE].include?(prev_code_token.type) && (is_single_space(prev_token) && tokens.index(prev_code_token) == tokens.index(brace_token) - 2)
+      if !%i[LBRACE].include?(prev_code_token.type) && (is_single_space(prev_token) && tokens.index(prev_code_token) == tokens.index(brace_token) - 2)
+        next
+      end
 
       next if prev_token.type == :INDENT && (tokens.index(prev_code_token) == tokens.index(brace_token) - 3)
 
@@ -39,7 +41,8 @@ PuppetLint.new_check(:manifest_whitespace_closing_brace_before) do
       next_token = next_token.next_token
     end
 
-    add_token(tokens.index(next_token), new_single_space) if next_token.type == :RBRACE && !%i[LBRACE NEWLINE INDENT].include?(next_token.prev_token.type)
+    add_token(tokens.index(next_token), new_single_space) if next_token.type == :RBRACE && !%i[LBRACE NEWLINE
+                                                                                               INDENT].include?(next_token.prev_token.type)
   end
 end
 
