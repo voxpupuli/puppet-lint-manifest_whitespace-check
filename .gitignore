@@ -1,7 +1,5 @@
 /.bundle/
-/vendor/
+/vendor/gems/
 /Gemfile.lock
-pkg/
-.ruby-*
-/coverage/
-*.gem
+vendor/bundle
+.vendor/
