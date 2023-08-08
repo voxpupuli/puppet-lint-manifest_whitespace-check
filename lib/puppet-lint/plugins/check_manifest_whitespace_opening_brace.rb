@@ -11,9 +11,12 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
       next if %i[COMMA].include?(prev_code_token.type) && %i[INDENT NEWLINE].include?(prev_token.type)
       next if %i[COMMENT COLON].include?(prev_code_token.type)
 
-      if %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
+      if %i[LPAREN LBRACK].include?(prev_code_token.type)
         next if tokens.index(prev_code_token) == tokens.index(brace_token) - 1
         next if tokens[tokens.index(prev_code_token)..tokens.index(brace_token)].collect(&:type).include?(:NEWLINE)
+      elsif %i[LBRACE].include?(prev_code_token.type)
+        next if tokens[tokens.index(prev_code_token)..tokens.index(brace_token)].collect(&:type).include?(:NEWLINE)
+        next if tokens.index(prev_code_token) == tokens.index(brace_token) - 2 && is_single_space(prev_token)
       else
         next unless tokens.index(prev_code_token) != tokens.index(brace_token) - 2 ||
                     !is_single_space(prev_token)
@@ -41,7 +44,7 @@ PuppetLint.new_check(:manifest_whitespace_opening_brace_before) do
       prev_token = prev_token.prev_token
     end
 
-    add_token(tokens.index(token), new_single_space) unless %i[LPAREN LBRACK LBRACE].include?(prev_code_token.type)
+    add_token(tokens.index(token), new_single_space) unless %i[LPAREN LBRACK].include?(prev_code_token.type)
   end
 end
 
