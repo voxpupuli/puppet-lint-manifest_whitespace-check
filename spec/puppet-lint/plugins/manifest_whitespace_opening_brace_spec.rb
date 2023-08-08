@@ -45,6 +45,78 @@ describe 'manifest_whitespace_opening_brace_before' do
     end
   end
 
+  context 'with a Hash-returning block' do
+    let(:code) do
+      <<~CODE
+        $result = $value.lest || { {} }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'with a Hash-nested Hash' do
+    let(:code) do
+      <<~CODE
+        $result = { foo => {} }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'with a Hash-nested Hash with a Hash key' do
+    let(:code) do
+      <<~CODE
+        $result = { { 'a' => 1 } => {} }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'with a Hash-nested Hash with an empty Hash key' do
+    let(:code) do
+      <<~CODE
+        $result = { {} => {} }
+      CODE
+    end
+
+    it 'detects no problems' do
+      expect(problems).to be_empty
+    end
+  end
+
+  context 'with a Hash-returning block and no space' do
+    let(:code) do
+      <<~CODE
+        $result = $value.lest || {{} }
+      CODE
+    end
+
+    it 'detects one problems' do
+      expect(problems).to have(1).problem
+    end
+
+    context 'with fix enabled' do
+      before do
+        PuppetLint.configuration.fix = true
+      end
+
+      after do
+        PuppetLint.configuration.fix = false
+      end
+
+      it { expect(manifest).to eq("$result = $value.lest || { {} }\n") }
+    end
+  end
+
   context 'inside, inline with function' do
     let(:code) do
       <<~CODE
