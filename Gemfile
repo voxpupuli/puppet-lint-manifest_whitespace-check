@@ -7,11 +7,6 @@ group :release, optional: true do
   gem 'github_changelog_generator', '~> 1.16.4', require: false
 end
 
-group :coverage, optional: ENV['COVERAGE'] != 'yes' do
-  gem 'codecov', require: false
-  gem 'simplecov-console', require: false
-end
-
 group :development do
   gem 'rake', '~> 13.0', '>= 13.0.6'
   gem 'rspec', '~> 3.12'

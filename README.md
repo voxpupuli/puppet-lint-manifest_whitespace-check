@@ -2,7 +2,6 @@
 
 [![License](https://img.shields.io/github/license/voxpupuli/puppet-lint-manifest_whitespace-check.svg)](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/blob/master/LICENSE)
 [![Test](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/actions/workflows/test.yml/badge.svg)](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/voxpupuli/puppet-lint-manifest_whitespace-check/branch/master/graph/badge.svg?token=Mypkl78hvK)](https://codecov.io/gh/voxpupuli/puppet-lint-manifest_whitespace-check)
 [![Release](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/actions/workflows/release.yml)
 [![RubyGem Version](https://img.shields.io/gem/v/puppet-lint-manifest_whitespace-check.svg)](https://rubygems.org/gems/puppet-lint-manifest_whitespace-check)
 [![RubyGem Downloads](https://img.shields.io/gem/dt/puppet-lint-manifest_whitespace-check.svg)](https://rubygems.org/gems/puppet-lint-manifest_whitespace-check)
