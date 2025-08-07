@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/tree/1.0.0) (2023-04-22)
+## [1.0.1](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/tree/1.0.1) (2025-08-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/compare/1.0.0...1.0.1)
+
+**Fixed bugs:**
+
+- Fix handling of nested left-braces [\#31](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/pull/31) ([seanmil](https://github.com/seanmil))
+
+## [1.0.0](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/tree/1.0.0) (2023-04-23)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/compare/0.3.0...1.0.0)
 
