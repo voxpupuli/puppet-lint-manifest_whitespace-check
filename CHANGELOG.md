@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/tree/2.0.0) (2025-09-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/compare/1.0.1...2.0.0)
+
+**Breaking changes:**
+
+- Require Ruby 3.2+ & puppet-lint 5.1+ [\#39](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/pull/39) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [1.0.1](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/tree/1.0.1) (2025-08-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-lint-manifest_whitespace-check/compare/1.0.0...1.0.1)
